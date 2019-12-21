@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="#dddddd"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.alin.customapp.activity.MainActivity">
+
+    <LinearLayout
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:id="@+id/main_action_bar"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:background="@android:color/darker_gray"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:orientation="horizontal">
+
+            <LinearLayout
+                    style="@style/layout_horizontal"
+                    android:id="@+id/search_bar"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:background="@drawable/search_bar"
+                    android:layout_weight="5"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                <ImageView
+                        style="@style/layout_horizontal"
+                        android:layout_weight="1"
+                        android:src="@android:drawable/ic_search_category_default"
+                        android:layout_height="wrap_content"/>
+
+                <AutoCompleteTextView
+                        style="@style/layout_horizontal"
+                        android:id="@+id/search_bar_text"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:completionThreshold="1"
+                        android:dropDownHorizontalOffset="5dp"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:textSize="20dp"
+                        android:gravity="center_vertical"
+                        android:hint="@string/search"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:background="@android:color/white"
+                        android:layout_weight="3"
+                        android:layout_height="match_parent"/>
+
+                <ImageView
+                        style="@style/layout_horizontal"
+                        android:id="@+id/search_bar_delete"
+                        android:layout_weight="1"
+                        android:src="@android:drawable/ic_delete"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    style="@style/layout_horizontal"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:id="@+id/search_bar_cancel"
+                        android:text="@string/cancel"
+                        android:textSize="20dp"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

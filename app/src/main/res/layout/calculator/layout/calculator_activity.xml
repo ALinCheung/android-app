@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:background="@android:color/black"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:background="@drawable/calculator_bar"
+                android:gravity="right"
+                android:orientation="vertical"
+                android:layout_margin="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+            <TextView
+                    android:id="@+id/calculate_text_top"
+                    android:textSize="30dp"
+                    android:gravity="center"
+                    android:ellipsize="start"
+                    android:maxLines="1"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/calculate_text_bottom"
+                    android:textSize="30dp"
+                    android:gravity="center"
+                    android:ellipsize="start"
+                    android:maxLines="1"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <GridLayout
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:rowCount="5"
+            android:columnCount="4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:id="@+id/calculate_clear"
+                android:text="C"
+                android:layout_column="0"
+                android:layout_row="0"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_delete"
+                android:text="←"
+                android:layout_column="1"
+                android:layout_row="0"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_remain"
+                android:text="%"
+                android:layout_column="2"
+                android:layout_row="0"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_divider"
+                android:text="÷"
+                android:layout_column="3"
+                android:layout_row="0"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_seven"
+                android:text="7"
+                android:layout_column="0"
+                android:layout_row="1"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_eight"
+                android:text="8"
+                android:layout_column="1"
+                android:layout_row="1"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_nine"
+                android:text="9"
+                android:layout_column="2"
+                android:layout_row="1"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_multi"
+                android:text="×"
+                android:layout_column="3"
+                android:layout_row="1"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_four"
+                android:text="4"
+                android:layout_column="0"
+                android:layout_row="2"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_five"
+                android:text="5"
+                android:layout_column="1"
+                android:layout_row="2"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_six"
+                android:text="6"
+                android:layout_column="2"
+                android:layout_row="2"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_minus"
+                android:text="-"
+                android:layout_column="3"
+                android:layout_row="2"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_one"
+                android:text="1"
+                android:layout_column="0"
+                android:layout_row="3"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_two"
+                android:text="2"
+                android:layout_column="1"
+                android:layout_row="3"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_three"
+                android:text="3"
+                android:layout_column="2"
+                android:layout_row="3"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_plus"
+                android:text="+"
+                android:layout_column="3"
+                android:layout_row="3"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_zero"
+                android:text="0"
+                android:layout_columnSpan="2"
+                android:layout_column="0"
+                android:layout_row="4"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_dot"
+                android:text="."
+                android:layout_column="2"
+                android:layout_row="4"
+                style="@style/calculator_btn"/>
+
+        <TextView
+                android:id="@+id/calculate_equal"
+                android:text="="
+                android:layout_column="3"
+                android:layout_row="4"
+                style="@style/calculator_btn"/>
+
+    </GridLayout>
+
+</RelativeLayout>
