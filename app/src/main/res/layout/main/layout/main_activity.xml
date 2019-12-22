@@ -51,7 +51,7 @@
 
             <LinearLayout
                     android:id="@+id/search_bar"
-                    android:onClick="onClickSeachBar"
+                    android:onClick="onClickSearchBar"
                     android:clickable="true"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"

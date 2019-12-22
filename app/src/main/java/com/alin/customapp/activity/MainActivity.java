@@ -119,7 +119,7 @@ public class MainActivity extends BaseActivity{
         }
     }
 
-    public void onClickSeachBar(View v){
+    public void onClickSearchBar(View v){
         switch (v.getId()){
             case R.id.search_bar:
                 Toast.makeText(context, "搜索条被点击", Toast.LENGTH_SHORT).show();
