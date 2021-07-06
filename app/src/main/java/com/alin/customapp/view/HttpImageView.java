@@ -7,9 +7,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Toast;
+import androidx.appcompat.widget.AppCompatImageView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import cz.msebera.android.httpclient.Header;
@@ -20,45 +20,48 @@ import java.io.*;
  * @author: Create By ZhangWenLin
  * @create: 2018-11-07 10:39
  **/
-public class HttpImageView extends android.support.v7.widget.AppCompatImageView {
+public class HttpImageView extends AppCompatImageView {
 
     public static final int GET_DATA_SUCCESS = 1;
     public static final int NETWORK_ERROR = 2;
     public static final int SERVER_ERROR = 3;
 
     //子线程不能操作UI，通过Handler设置图片
-    private Handler handler = new Handler() {
+    private Handler handler;
+
+    public static class HttpImageViewHandler extends Handler {
+
+        private View view;
+
+        HttpImageViewHandler(View view) {
+            super();
+            this.view = view;
+        }
+
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case GET_DATA_SUCCESS:
                     Bitmap bitmap = (Bitmap) msg.obj;
-                    Drawable drawable = new BitmapDrawable(getResources(), bitmap);
-                    setBackground(drawable);
+                    Drawable drawable = new BitmapDrawable(view.getResources(), bitmap);
+                    view.setBackground(drawable);
                     break;
                 case NETWORK_ERROR:
-                    Toast.makeText(getContext(), "网络连接失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "网络连接失败", Toast.LENGTH_SHORT).show();
                     break;
                 case SERVER_ERROR:
-                    Toast.makeText(getContext(), "服务器发生错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "服务器发生错误", Toast.LENGTH_SHORT).show();
                     break;
                 default:
-                    Toast.makeText(getContext(), "设置网络图片失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "设置网络图片失败", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
-    };
-
-    public HttpImageView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
     }
 
     public HttpImageView(Context context) {
         super(context);
-    }
-
-    public HttpImageView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this.handler = new HttpImageViewHandler(this);
     }
 
     //设置网络图片
@@ -83,11 +86,11 @@ public class HttpImageView extends android.support.v7.widget.AppCompatImageView 
                             FileOutputStream fos = null;
                             try {
                                 fos = new FileOutputStream(file.getAbsoluteFile());
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                                sendHandleMessage(bitmap);
+                            } catch (Exception e) {
+                                Toast.makeText(getContext(), "设置网络图片失败", Toast.LENGTH_SHORT).show();
                             }
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                            sendHandleMessage(bitmap);
                         }
                     }
 

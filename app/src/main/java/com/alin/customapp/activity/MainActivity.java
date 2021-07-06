@@ -1,12 +1,12 @@
 package com.alin.customapp.activity;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import com.alibaba.fastjson.JSONObject;
 import com.alin.customapp.R;
 import com.alin.customapp.adapter.MainGvAdapter;
@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity{
         // 轮播图
         String bannerListString = getAssetsString("json/banner_list.json");
         this.bannerList = JSONObject.parseArray(bannerListString, Banner.class);
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.main_banner_linear, new BannerFragment(context, bannerList));
         fragmentTransaction.commit();

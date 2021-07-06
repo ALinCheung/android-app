@@ -1,12 +1,12 @@
 package com.alin.customapp.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+import androidx.annotation.Nullable;
 import com.alin.customapp.R;
 import com.alin.customapp.common.BaseActivity;
 
