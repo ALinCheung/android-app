@@ -27,6 +27,7 @@
         <!--闪屏页-->
         <activity
                 android:theme="@style/AppTheme.NoActionBar"
+                android:statusBarColor="@android:color/transparent"
                 android:name=".activity.SplashActivity">
         </activity>
 

@@ -1,14 +1,20 @@
 package com.alin.customapp.common;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 import android.widget.Toolbar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 import com.alin.customapp.R;
+import com.alin.customapp.activity.SplashActivity;
 import com.alin.customapp.constant.AppStatusConstant;
 import com.alin.customapp.manager.AppStatusManager;
 import com.jaeger.library.StatusBarUtil;
@@ -28,15 +34,19 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        // 设置闪屏页
-        setSplash();
+        Log.i(this.getClass().getName(), "开启页面");
         // 「必须在 Application 的 onCreate 方法中执行 BGASwipeBackHelper.init 来初始化滑动返回」
         // 在 super.onCreate(savedInstanceState) 之前调用该方法
         initSwipeBackFinish();
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
+        // 绑定注入view
+        //ButterKnife.bind(this);
+        // 设置屏幕旋转
         setScreenRoate(true);
-        setStatusBar();
+        // 设置状态栏
+        //setStatusBar();
+        // 设置闪屏页
+        setSplash();
     }
 
     /**
@@ -64,12 +74,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         mSwipeBackHelper.setSwipeBackThreshold(0.3f);
         // 设置底部导航条是否悬浮在内容上，默认值为 false
         mSwipeBackHelper.setIsNavigationBarOverlap(false);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ButterKnife.bind(this).unbind();
     }
 
     /**
@@ -143,14 +147,26 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         // StatusBarUtil.setTranslucentForImageViewInFragment(this, 0, null);
     }
 
+    /**
+     * 设置闪屏页
+     */
     protected void setSplash() {
         switch (AppStatusManager.getInstance().appStatus) {
             case AppStatusConstant.STATUS_FORCE_KILLED:
-
+                startApp();
                 break;
             default:
                 break;
         }
+    }
+
+    private void startApp() {
+        Toast.makeText(getApplicationContext(), "启动闪屏页", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, SplashActivity.class);
+        // 清空页面栈并启动
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
     /**

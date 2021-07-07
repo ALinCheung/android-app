@@ -34,12 +34,12 @@ public class HttpImageView extends AppCompatImageView {
         private View view;
 
         HttpImageViewHandler(View view) {
-            super();
             this.view = view;
         }
 
         @Override
         public void handleMessage(Message msg) {
+            super.handleMessage(msg);
             switch (msg.what) {
                 case GET_DATA_SUCCESS:
                     Bitmap bitmap = (Bitmap) msg.obj;
