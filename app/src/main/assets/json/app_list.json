@@ -13,5 +13,10 @@
     "id": 3,
     "name": "旋转",
     "clazz": "com.alin.customapp.activity.RotateActivity"
+  },
+  {
+    "id": 4,
+    "name": "选择器",
+    "clazz": "com.alin.customapp.activity.PickerActivity"
   }
 ]

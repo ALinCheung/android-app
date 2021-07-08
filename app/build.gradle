@@ -26,6 +26,7 @@ android {
     sourceSets {
         main {
             res.srcDirs = [
+                "src/main/res/layout/picker",
                 "src/main/res/layout/rotate",
                 "src/main/res/layout/browser",
                 "src/main/res/layout/calculator",
@@ -38,6 +39,11 @@ android {
             ]
         }
     }
+    // 编译版本, 解决lambda写法
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
     // 解决包名重复
     /*packagingOptions {
         exclude 'META-INF/androidx.legacy_legacy-support-core-utils.version'
@@ -61,8 +67,8 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     // androidx兼容扩展库
     implementation "androidx.multidex:multidex:2.0.0"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.annotation:annotation:1.1.0'
@@ -78,10 +84,24 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.2.28'
     // 异步http请求
     implementation 'com.loopj.android:android-async-http:1.4.9'
+    // retrofit2请求框架
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.5.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    // okhttp请求框架
+    implementation 'com.squareup.okhttp3:okhttp:3.12.8'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.8'
+    // 响应式变成框架
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     // 状态栏工具
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
     // 滑动返回组件
     implementation 'com.github.bingoogolapple:BGASwipeBackLayout-Android:2.0.2'
     // 下来刷新页面
     implementation 'com.github.bingoogolapple:BGARefreshLayout-Android:2.0.1'
+    // 弹窗提示
+    implementation 'com.github.limxing:Android-PromptDialog:1.1.3'
+    // 日期选择框
+    implementation 'com.github.limxing:DatePickerView:1.1.0'
 }

@@ -9,9 +9,10 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:name=".App"
-            tools:replace="android:appComponentFactory"
-            android:appComponentFactory="android_support与androidx冲突"
             android:theme="@style/AppTheme">
+        <!--tools:replace="android:appComponentFactory"-->
+        <!--android:appComponentFactory="android_support与androidx冲突"-->
+
         <!--主页面-->
         <activity
                 android:name=".activity.MainActivity"
@@ -53,6 +54,12 @@
         <activity
                 android:theme="@style/AppTheme.NoActionBar"
                 android:name=".activity.RotateActivity">
+        </activity>
+
+        <!--选择器-->
+        <activity
+                android:theme="@style/AppTheme.NoActionBar"
+                android:name=".activity.PickerActivity">
         </activity>
     </application>
 

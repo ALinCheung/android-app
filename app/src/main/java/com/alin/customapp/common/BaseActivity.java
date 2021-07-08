@@ -5,19 +5,18 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 import android.widget.Toolbar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 import com.alin.customapp.R;
 import com.alin.customapp.activity.SplashActivity;
 import com.alin.customapp.constant.AppStatusConstant;
 import com.alin.customapp.manager.AppStatusManager;
 import com.jaeger.library.StatusBarUtil;
+import me.leefeng.promptlibrary.PromptDialog;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,6 +29,7 @@ import java.io.InputStreamReader;
  **/
 public abstract class BaseActivity extends AppCompatActivity implements BGASwipeBackHelper.Delegate, View.OnClickListener {
     protected BGASwipeBackHelper mSwipeBackHelper;
+    private PromptDialog promptDialog;
     protected Toolbar mToolbar;
 
     @Override
@@ -187,5 +187,52 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
             e.printStackTrace();
         }
         return stringBuilder.toString();
+    }
+
+    /**
+     * 警告框
+     */
+    public void showInfoDialog(String msg) {
+        if (promptDialog == null) {
+            promptDialog = new PromptDialog(this);
+        }
+        promptDialog.showInfo(msg);
+    }
+
+    /**
+     * 错误提示框
+     */
+    public void showErrorDialog(String msg) {
+        if (promptDialog == null) {
+            promptDialog = new PromptDialog(this);
+        }
+        promptDialog.showError(msg);
+    }
+
+    /**
+     * 成功提示框
+     */
+    public void showSuccessDialog(String msg) {
+        if (promptDialog == null) {
+            promptDialog = new PromptDialog(this);
+        }
+        promptDialog.showSuccess(msg);
+    }
+
+    /**
+     * 加载框
+     */
+    public void showLoadingDialog(String msg) {
+        if (promptDialog == null) {
+            promptDialog = new PromptDialog(this);
+        }
+        promptDialog.showLoading(msg);
+    }
+
+    /**
+     * 关闭提示框
+     */
+    public void dismissDialog() {
+        promptDialog.dismiss();
     }
 }
