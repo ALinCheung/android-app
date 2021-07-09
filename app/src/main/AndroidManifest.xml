@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-          package="com.alin.customapp">
+          package="com.alin.app">
 
     <application
             android:allowBackup="true"
@@ -8,14 +8,14 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:name=".App"
+            android:name="com.alin.android.app.App"
             android:theme="@style/AppTheme">
         <!--tools:replace="android:appComponentFactory"-->
         <!--android:appComponentFactory="android_support与androidx冲突"-->
 
         <!--主页面-->
         <activity
-                android:name=".activity.MainActivity"
+                android:name="com.alin.android.app.activity.MainActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.TranslucentTheme">
             <intent-filter>
@@ -29,37 +29,37 @@
         <activity
                 android:theme="@style/AppTheme.NoActionBar"
                 android:statusBarColor="@android:color/transparent"
-                android:name=".activity.SplashActivity">
+                android:name="com.alin.android.app.activity.SplashActivity">
         </activity>
 
         <!--搜索页面-->
         <activity
                 android:theme="@style/AppTheme.TranslucentTheme"
-                android:name=".activity.SearchBarActivity">
+                android:name="com.alin.android.app.activity.SearchBarActivity">
         </activity>
 
         <!--计算机-->
         <activity
                 android:theme="@style/AppTheme.NoActionBar"
-                android:name=".activity.CalculatorActivity">
+                android:name="com.alin.android.app.activity.CalculatorActivity">
         </activity>
 
         <!--浏览器-->
         <activity
                 android:theme="@style/AppTheme.NoActionBar"
-                android:name=".activity.BrowserActivity">
+                android:name="com.alin.android.app.activity.BrowserActivity">
         </activity>
 
         <!--旋转-->
         <activity
                 android:theme="@style/AppTheme.NoActionBar"
-                android:name=".activity.RotateActivity">
+                android:name="com.alin.android.app.activity.RotateActivity">
         </activity>
 
         <!--选择器-->
         <activity
                 android:theme="@style/AppTheme.NoActionBar"
-                android:name=".activity.PickerActivity">
+                android:name="com.alin.android.app.activity.PickerActivity">
         </activity>
     </application>
 

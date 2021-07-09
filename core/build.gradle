@@ -1,0 +1,100 @@
+apply plugin: 'com.android.library'
+
+def configs = rootProject.ext.android
+def library = rootProject.ext.dependencies
+
+android {
+    compileSdkVersion configs.compileSdkVersion
+    buildToolsVersion configs.buildToolsVersion
+    defaultConfig {
+        minSdkVersion configs.minSdkVersion
+        targetSdkVersion configs.targetSdkVersion
+        versionCode configs.versionCode
+        versionName configs.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            lintOptions {
+                checkReleaseBuilds false
+                // Or, if you prefer, you can continue to check for errors in release builds,
+                // but continue the build even when errors are found:
+                abortOnError false
+            }
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            res.srcDirs = [
+            ]
+        }
+    }
+    // 编译版本, 解决lambda写法
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+    // 解决包名重复
+    /*packagingOptions {
+        exclude 'META-INF/androidx.legacy_legacy-support-core-utils.version'
+        exclude 'META-INF/androidx.loader_loader.version'
+        exclude 'META-INF/androidx.localbroadcastmanager_localbroadcastmanager.version'
+        exclude 'META-INF/androidx.viewpager_viewpager.version'
+        exclude 'META-INF/androidx.swiperefreshlayout_swiperefreshlayout.version'
+        exclude 'META-INF/androidx.asynclayoutinflater_asynclayoutinflater.version'
+    }*/
+}
+
+dependencies {
+    // libs文件夹下的jar包
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    // android支持兼容扩展库
+    androidTestImplementation(library.android_support_espresso_core, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+//    api 'library.android_support_appcompat_v7
+//    api library.android_support_design
+    api library.android_support_constraint_layout
+    // androidx兼容扩展库
+    api library.androidx_multidex
+    api library.androidx_appcompat
+    api library.androidx_core
+    api library.androidx_legacy_support_v4
+    api library.androidx_constraintlayout
+    api library.androidx_annotation
+    api library.androidx_recyclerview
+    // 测试工具
+    testImplementation library.junit
+    // 注解注入view
+    api library.butterknife
+    annotationProcessor library.butterknife_compiler
+    // 字符串工具
+    api library.commons_lang3
+    // json工具
+    api library.fastjson
+    // 异步http请求
+    api library.android_async_http
+    // retrofit2请求框架
+    api library.retrofit
+    api library.converter_scalars
+    api library.adapter_rxjava2
+    api library.converter_gson
+    // okhttp请求框架
+    api library.okhttp
+    api library.logging_interceptor
+    // 响应式变成框架
+    api library.rxjava
+    api library.rxandroid
+    // 状态栏工具
+    api library.library
+    // 滑动返回组件
+    api library.BGASwipeBackLayout_Android
+    // 下来刷新页面
+    api library.BGARefreshLayout_Android
+    // 弹窗提示
+    api library.Android_PromptDialog
+    // 日期选择框
+    api library.DatePickerView
+}
