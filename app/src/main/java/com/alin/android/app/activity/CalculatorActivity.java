@@ -2,11 +2,11 @@ package com.alin.android.app.activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
+import com.alin.android.app.common.BaseAppActivity;
 import com.alin.app.R;
-import com.alin.android.app.common.BaseActivity;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author: Create By ZhangWenLin
  * @create: 2018-11-09 11:03
  **/
-public class CalculatorActivity extends BaseActivity implements View.OnClickListener{
+public class CalculatorActivity extends BaseAppActivity implements View.OnClickListener{
 
     private Context context;
     private TextView calTextTop;

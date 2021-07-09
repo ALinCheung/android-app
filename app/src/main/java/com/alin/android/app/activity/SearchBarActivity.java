@@ -7,13 +7,16 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
+import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import com.alibaba.fastjson.JSONObject;
-import com.alin.android.app.common.BaseActivity;
+import com.alin.android.app.adapter.SearchActvAdapter;
+import com.alin.android.app.common.BaseAppActivity;
 import com.alin.android.app.model.App;
 import com.alin.app.R;
-import com.alin.android.app.adapter.SearchActvAdapter;
 
 import java.util.List;
 
@@ -21,7 +24,7 @@ import java.util.List;
  * @author: Create By ZhangWenLin
  * @create: 2018-11-05 16:30
  **/
-public class SearchBarActivity extends BaseActivity {
+public class SearchBarActivity extends BaseAppActivity {
 
     private Context context;
     private List<App> appList;

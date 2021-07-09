@@ -4,8 +4,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.alin.android.app.common.BaseAppActivity;
 import com.alin.app.R;
-import com.alin.android.app.common.BaseActivity;
 import top.leefeng.datepicker.DatePickerView;
 
 /**
@@ -13,7 +13,7 @@ import top.leefeng.datepicker.DatePickerView;
  * @Author zhangwl
  * @Date 2021/7/7 17:38
  */
-public class PickerActivity extends BaseActivity {
+public class PickerActivity extends BaseAppActivity {
 
     @BindView(R.id.date_picker_view)
     public DatePickerView datePickerView;

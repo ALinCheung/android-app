@@ -12,9 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.alin.android.app.common.BaseActivity;
-import com.alin.android.app.constant.AppStatusConstant;
-import com.alin.android.app.manager.AppStatusManager;
+import com.alin.android.app.common.BaseAppActivity;
+import com.alin.android.core.constant.AppStatusConstant;
+import com.alin.android.core.manager.AppStatusManager;
 import com.alin.app.R;
 
 import java.lang.ref.WeakReference;
@@ -25,7 +25,7 @@ import java.util.Date;
  * @Author zhangwl
  * @Date 2021/7/6 9:37
  */
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends BaseAppActivity {
 
     public final static int SPLASH_PROCESS = 1;
     public final static int SPLASH_END = 2;

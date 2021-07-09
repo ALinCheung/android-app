@@ -1,4 +1,4 @@
-package com.alin.android.app.common;
+package com.alin.android.core.base;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -10,10 +10,9 @@ import android.widget.Toolbar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
-import com.alin.android.app.manager.AppStatusManager;
+import com.alin.android.core.constant.AppStatusConstant;
+import com.alin.android.core.manager.AppStatusManager;
 import com.alin.app.R;
-import com.alin.android.app.activity.SplashActivity;
-import com.alin.android.app.constant.AppStatusConstant;
 import com.jaeger.library.StatusBarUtil;
 import me.leefeng.promptlibrary.PromptDialog;
 
@@ -22,14 +21,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * @description:
+ * @description: 基础活动
  * @author: Create By ZhangWenLin
- * @create: 2018-11-01 15:31
+ * @create: 2021年7月9日12:52:03
  **/
 public abstract class BaseActivity extends AppCompatActivity implements BGASwipeBackHelper.Delegate, View.OnClickListener {
     protected BGASwipeBackHelper mSwipeBackHelper;
-    private PromptDialog promptDialog;
-    protected Toolbar mToolbar;
+    protected PromptDialog promptDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,14 +36,14 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         // 在 super.onCreate(savedInstanceState) 之前调用该方法
         initSwipeBackFinish();
         super.onCreate(savedInstanceState);
-        // 绑定注入view
+        // 绑定注入view, 如无使用注解进行绑定则会报错
         //ButterKnife.bind(this);
         // 设置屏幕旋转
         setScreenRoate(true);
         // 设置状态栏
         //setStatusBar();
-        // 设置闪屏页
-        setSplash();
+        // 设置启动页或者闪屏页
+        setStartPage();
     }
 
     /**
@@ -142,30 +140,32 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
      * 沉浸式实现
      */
     protected void setStatusBar() {
-        StatusBarUtil.setColorForSwipeBack(this, getResources().getColor(R.color.colorWhite, getTheme()), 0);
+        StatusBarUtil.setColorForSwipeBack(this, 0, 0);
         // StatusBarUtil.setTranslucentForImageViewInFragment(this, 0, null);
     }
 
     /**
-     * 设置闪屏页
+     * 设置启动页, 如果启动页为main则设置为null
      */
-    protected void setSplash() {
-        switch (AppStatusManager.getInstance().appStatus) {
-            case AppStatusConstant.STATUS_FORCE_KILLED:
-                startApp();
-                break;
-            default:
-                break;
+    protected Class getStartActivity() {
+        return null;
+    }
+
+    protected void setStartPage() {
+        if (AppStatusManager.getInstance().appStatus == AppStatusConstant.STATUS_FORCE_KILLED) {
+            startApp(getStartActivity());
         }
     }
 
-    private void startApp() {
-        Toast.makeText(getApplicationContext(), "启动闪屏页", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this, SplashActivity.class);
-        // 清空页面栈并启动
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
+    private void startApp(Class clz) {
+        if (clz != null) {
+            Toast.makeText(getApplicationContext(), "启动页", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, clz);
+            // 清空页面栈并启动
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        }
     }
 
     /**

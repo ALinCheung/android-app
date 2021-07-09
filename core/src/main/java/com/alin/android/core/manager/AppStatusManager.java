@@ -1,6 +1,6 @@
-package com.alin.android.app.manager;
+package com.alin.android.core.manager;
 
-import com.alin.android.app.constant.AppStatusConstant;
+import com.alin.android.core.constant.AppStatusConstant;
 
 /**
  * @Description APP状态管理器

@@ -1,4 +1,4 @@
-package com.alin.android.app.constant;
+package com.alin.android.core.constant;
 
 /**
  * File descripition:   APP状态跟踪器常量码

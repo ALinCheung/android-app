@@ -3,21 +3,26 @@ package com.alin.android.app.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.*;
-import android.widget.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.TextView;
+import android.widget.Toast;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.alibaba.fastjson.JSONObject;
-import com.alin.android.app.fragment.BannerFragment;
-import com.alin.app.R;
 import com.alin.android.app.adapter.MainGvAdapter;
-import com.alin.android.app.common.BaseActivity;
+import com.alin.android.app.common.BaseAppActivity;
+import com.alin.android.app.fragment.BannerFragment;
 import com.alin.android.app.model.App;
 import com.alin.android.app.model.Banner;
+import com.alin.app.R;
 
 import java.util.List;
 
-public class MainActivity extends BaseActivity{
+public class MainActivity extends BaseAppActivity {
 
     private Context context;
     private List<Banner> bannerList;

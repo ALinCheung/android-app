@@ -1,4 +1,4 @@
-package com.alin.android.app.common;
+package com.alin.android.core.base;
 
 import android.app.Activity;
 import android.content.Intent;

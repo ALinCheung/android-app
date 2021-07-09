@@ -7,13 +7,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
-import com.alin.android.app.common.BaseActivity;
+import com.alin.android.app.common.BaseAppActivity;
 
 /**
  * @author: Create By ZhangWenLin
  * @create: 2018-11-09 16:39
  **/
-public class BrowserActivity extends BaseActivity {
+public class BrowserActivity extends BaseAppActivity {
 
     private WebView webView;
     private long exitTime = 0;

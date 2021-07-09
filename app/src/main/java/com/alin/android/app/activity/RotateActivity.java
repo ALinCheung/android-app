@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.ImageView;
 import androidx.annotation.Nullable;
-import com.alin.android.app.common.BaseActivity;
+import com.alin.android.app.common.BaseAppActivity;
 import com.alin.app.R;
 
 import java.util.Timer;
@@ -16,7 +16,7 @@ import java.util.TimerTask;
  * @author: Create By ZhangWenLin
  * @create: 2018-11-01 10:36
  **/
-public class RotateActivity extends BaseActivity {
+public class RotateActivity extends BaseAppActivity {
 
     private ImageView imageView;
     private RotateDrawable drawable;
