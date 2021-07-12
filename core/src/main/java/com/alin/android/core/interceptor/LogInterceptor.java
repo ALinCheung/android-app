@@ -1,4 +1,4 @@
-package com.alin.android.core.intercepter;
+package com.alin.android.core.interceptor;
 
 import android.util.Log;
 import okhttp3.*;
@@ -15,7 +15,7 @@ import java.nio.charset.UnsupportedCharsetException;
  * @Author zhangwl
  * @Date 2021/7/9 15:39
  */
-public class LogIntercepter implements Interceptor {
+public class LogInterceptor implements Interceptor {
 
     private static final Charset UTF8 = StandardCharsets.UTF_8;
     private static final String LOG_TAG = "LogIntercepter";

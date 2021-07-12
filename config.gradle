@@ -38,6 +38,8 @@ ext {
             converter_scalars: 'com.squareup.retrofit2:converter-scalars:2.5.0',
             adapter_rxjava2: 'com.squareup.retrofit2:adapter-rxjava2:2.5.0',
             converter_gson: 'com.squareup.retrofit2:converter-gson:2.5.0',
+            // retrofit2封装
+            retrofit_helper: 'com.github.xchengDroid:retrofit-helper:3.2.1',
             // okhttp请求框架
             okhttp: 'com.squareup.okhttp3:okhttp:3.12.8',
             logging_interceptor: 'com.squareup.okhttp3:logging-interceptor:3.12.8',
