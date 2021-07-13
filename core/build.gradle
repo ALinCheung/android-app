@@ -32,10 +32,10 @@ android {
         }
     }
     // 编译版本, 解决lambda写法
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_8
-//        targetCompatibility JavaVersion.VERSION_1_8
-//    }
+    /*compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }*/
     // 解决包名重复
     /*packagingOptions {
         exclude 'META-INF/androidx.legacy_legacy-support-core-utils.version'
@@ -44,6 +44,14 @@ android {
         exclude 'META-INF/androidx.viewpager_viewpager.version'
         exclude 'META-INF/androidx.swiperefreshlayout_swiperefreshlayout.version'
         exclude 'META-INF/androidx.asynclayoutinflater_asynclayoutinflater.version'
+    }*/
+    // ViewBinding 需要 Android Gradle Plugin 3.6.0
+    /*viewBinding {
+        enabled = true
+    }
+    // ViewBinding 需要 Android Studio 版本是在 4.0 及以上版本
+    buildFeatures {
+        viewBinding true
     }*/
 }
 

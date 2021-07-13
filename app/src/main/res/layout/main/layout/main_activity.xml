@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/app_background"
-        tools:context="com.alin.app.com.alin.android.app.activity.MainActivity">
+        tools:context="com.alin.android.app.activity.MainActivity">
 
     <!--<android.support.design.widget.AppBarLayout
             android:id="@+id/toolbar_layout"
@@ -90,7 +90,6 @@
         <GridView
                 android:id="@+id/main_gl_view"
                 android:numColumns="3"
-                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
         </GridView>

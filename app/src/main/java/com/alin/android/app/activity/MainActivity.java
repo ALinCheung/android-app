@@ -62,7 +62,7 @@ public class MainActivity extends BaseAppActivity {
         String appListString = getAssetsString("json/app_list.json");
         this.appList = JSONObject.parseArray(appListString, App.class);
         GridView mainGlView = (GridView) findViewById(R.id.main_gl_view);
-        mainGlView.setAdapter(new MainGvAdapter(MainActivity.this, appList));
+        mainGlView.setAdapter(new MainGvAdapter(appList, R.layout.main_gridview_item));
         mainGlView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

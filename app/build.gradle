@@ -54,6 +54,8 @@ dependencies {
     androidTestImplementation(library.android_support_espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    // 测试工具
+    testImplementation library.junit
     // 注解注入view
     annotationProcessor library.butterknife_compiler
 }

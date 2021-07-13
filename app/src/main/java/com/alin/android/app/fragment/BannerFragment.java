@@ -38,8 +38,10 @@ public class BannerFragment extends Fragment implements ViewPager.OnPageChangeLi
     private LinearLayout ll_dots;
     private List<ImageView> dotsList;
 
-    private boolean isStop = false;//线程是否停止
-    private static int PAGER_TIOME = 5000;//间隔时间
+    //线程是否停止
+    private boolean isStop = false;
+    //间隔时间
+    private static int PAGER_TIME = 5000;
 
     private Handler handler = new Handler() {
         @Override
@@ -125,13 +127,13 @@ public class BannerFragment extends Fragment implements ViewPager.OnPageChangeLi
             @Override
             public void run() {
                 while (!isStop) {
+                    SystemClock.sleep(PAGER_TIME);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             bannerViewPager.setCurrentItem(bannerViewPager.getCurrentItem() + 1);
                         }
                     });
-                    SystemClock.sleep(PAGER_TIOME);
                 }
             }
         }).start();
