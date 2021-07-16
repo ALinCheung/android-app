@@ -89,6 +89,8 @@ dependencies {
     api library.converter_scalars
     api library.adapter_rxjava2
     api library.converter_gson
+    // retrofit2缓存, mock
+    api library.retrofit_cache
     // retrofit2封装
     //api library.retrofit_helper
     // okhttp请求框架

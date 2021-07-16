@@ -4,6 +4,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.alin.android.app.activity.SplashActivity;
 import com.alin.android.core.base.BaseActivity;
+import com.alin.android.core.manager.RetrofitManager;
+import retrofit2.Retrofit;
 
 /**
  * @description: 基础活动
@@ -12,9 +14,13 @@ import com.alin.android.core.base.BaseActivity;
  **/
 public abstract class BaseAppActivity extends BaseActivity {
 
+    private final String BaseUrl = "http://localhost";
+    protected Retrofit retrofit;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        retrofit = RetrofitManager.getInstance(this, BaseUrl);
     }
 
     @Override

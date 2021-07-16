@@ -1,5 +1,6 @@
 package com.alin.android.app.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,35 +13,40 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import com.alibaba.fastjson.JSONObject;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.alin.android.app.adapter.MainGvAdapter;
+import com.alin.android.app.service.app.AppService;
 import com.alin.android.app.common.BaseAppActivity;
 import com.alin.android.app.fragment.BannerFragment;
 import com.alin.android.app.model.App;
 import com.alin.android.app.model.Banner;
+import com.alin.android.core.manager.RetrofitManager;
 import com.alin.app.R;
+import io.reactivex.functions.Consumer;
 
 import java.util.List;
 
 public class MainActivity extends BaseAppActivity {
 
     private Context context;
-    private List<Banner> bannerList;
-    private List<App> appList;
-    private TextView scan;
-    private TextView searchBarText;
+    @BindView(R.id.main_scan)
+    public TextView scan;
+    @BindView(R.id.search_bar_text)
+    public TextView searchBarText;
+    @BindView(R.id.main_gl_view)
+    public GridView mainGlView;
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         this.context = MainActivity.this;
+        ButterKnife.bind(this);
 
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
-
-        scan = (TextView) findViewById(R.id.main_scan);
-        searchBarText = (TextView) findViewById(R.id.search_bar_text);
 
         // 扫一扫
         scan.setOnClickListener(new View.OnClickListener() {
@@ -50,34 +56,42 @@ public class MainActivity extends BaseAppActivity {
             }
         });
 
+        AppService appService = retrofit.create(AppService.class);
         // 轮播图
-        String bannerListString = getAssetsString("json/banner_list.json");
-        this.bannerList = JSONObject.parseArray(bannerListString, Banner.class);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.main_banner_linear, new BannerFragment(context, bannerList));
-        fragmentTransaction.commit();
+        appService.getBannerList().compose(RetrofitManager.<List<Banner>>IoMain())
+                .subscribe(new Consumer<List<Banner>>() {
+                    @Override
+                    public void accept(List<Banner> bannerList) throws Exception {
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.add(R.id.main_banner_linear, new BannerFragment(context, bannerList));
+                        fragmentTransaction.commit();
+                    }
+                });
 
         // 功能列表
-        String appListString = getAssetsString("json/app_list.json");
-        this.appList = JSONObject.parseArray(appListString, App.class);
-        GridView mainGlView = (GridView) findViewById(R.id.main_gl_view);
-        mainGlView.setAdapter(new MainGvAdapter(appList, R.layout.main_gridview_item));
-        mainGlView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView tv = (TextView) view.findViewById(R.id.main_gl_item_tv);
-                Toast.makeText(context, tv.getText(), Toast.LENGTH_LONG).show();
-                Class<?> clz = null;
-                try {
-                    clz = getClassLoader().loadClass(appList.get(i).getClazz());
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                Intent intent = new Intent(context, clz);
-                startActivity(intent);
-            }
-        });
+        appService.getAppList().compose(RetrofitManager.<List<App>>IoMain())
+                .subscribe(new Consumer<List<App>>() {
+                    @Override
+                    public void accept(final List<App> appList) throws Exception {
+                        mainGlView.setAdapter(new MainGvAdapter(appList, R.layout.main_gridview_item));
+                        mainGlView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                TextView tv = (TextView) view.findViewById(R.id.main_gl_item_tv);
+                                Toast.makeText(context, tv.getText(), Toast.LENGTH_LONG).show();
+                                Class<?> clz = null;
+                                try {
+                                    clz = getClassLoader().loadClass(appList.get(i).getClazz());
+                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                                Intent intent = new Intent(context, clz);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
 
 
         // 右下角图标
