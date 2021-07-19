@@ -6,19 +6,19 @@
       "id": "1",
       "name": "标题1",
       "imageUrl": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=380078569,3185198103&fm=26&gp=0.jpg",
-      "targetUrl": "https://www.baidu.com"
+      "targetUrl": "https://www.zhihu.com"
     },
     {
       "id": "2",
       "name": "标题2",
       "imageUrl": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=380078569,3185198103&fm=26&gp=0.jpg",
-      "targetUrl": "https://www.baidu.com"
+      "targetUrl": "https://www.sina.com"
     },
     {
       "id": "3",
       "name": "标题3",
       "imageUrl": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=380078569,3185198103&fm=26&gp=0.jpg",
-      "targetUrl": "https://www.baidu.com"
+      "targetUrl": "https://www.qq.com"
     }
   ]
 }

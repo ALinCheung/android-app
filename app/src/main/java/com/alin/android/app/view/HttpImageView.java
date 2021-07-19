@@ -25,6 +25,7 @@ public class HttpImageView extends AppCompatImageView {
     public static final int GET_DATA_SUCCESS = 1;
     public static final int NETWORK_ERROR = 2;
     public static final int SERVER_ERROR = 3;
+    private String targetUrl;
 
     //子线程不能操作UI，通过Handler设置图片
     private Handler handler;
@@ -107,6 +108,14 @@ public class HttpImageView extends AppCompatImageView {
             Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
             sendHandleMessage(bitmap);
         }
+    }
+
+    public String getTargetUrl() {
+        return targetUrl;
+    }
+
+    public void setTargetUrl(String targetUrl) {
+        this.targetUrl = targetUrl;
     }
 
     /**

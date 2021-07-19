@@ -1,5 +1,6 @@
 package com.alin.android.app.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -8,6 +9,8 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import com.alin.android.app.common.BaseAppActivity;
+import com.alin.android.app.constant.CommonConstant;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author: Create By ZhangWenLin
@@ -23,6 +26,14 @@ public class BrowserActivity extends BaseAppActivity {
         super.onCreate(savedInstanceState);
         // setContentView(R.layout.browser_activity);
 
+        // 获取跳转地址
+        Intent intent = getIntent();
+        String url = CommonConstant.BROWSER_DEFAULT_URL;
+        String intentUrl = intent.getStringExtra(CommonConstant.BROWSER_URL_KEY);
+        if (StringUtils.isNotBlank(intentUrl)) {
+            url = intentUrl;
+        }
+
         webView = new WebView(this);
         webView.setWebViewClient(new WebViewClient() {
             //设置在webView点击打开的新网页在当前界面显示,而不跳转到新的浏览器中
@@ -35,7 +46,7 @@ public class BrowserActivity extends BaseAppActivity {
         //设置WebView属性,运行执行js脚本
         webView.getSettings().setJavaScriptEnabled(true);
         //调用loadView方法为WebView加入链接
-        webView.loadUrl("https://www.baidu.com/");
+        webView.loadUrl(url);
         webView.getSettings().setSavePassword(false);
         webView.setVerticalScrollBarEnabled(false);
         webView.setHorizontalScrollBarEnabled(false);
