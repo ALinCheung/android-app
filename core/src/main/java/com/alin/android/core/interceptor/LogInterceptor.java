@@ -10,6 +10,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
 /**
  * @Description 日志拦截器
  * @Author zhangwl
@@ -18,7 +20,6 @@ import java.nio.charset.UnsupportedCharsetException;
 public class LogInterceptor implements Interceptor {
 
     private static final Charset UTF8 = StandardCharsets.UTF_8;
-    private static final String LOG_TAG = "LogIntercepter";
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -51,14 +52,14 @@ public class LogInterceptor implements Interceptor {
             }
         }
         rBody = buffer.clone().readString(charset);
-        Log.d(LOG_TAG, "├─────────────────────────────────────────────────────────────────");
-        Log.d(LOG_TAG, "│【请求响应码】" + response.code());
-        Log.d(LOG_TAG, "│【请求头】：" + request.headers());
-        Log.d(LOG_TAG, "│【请求方法】：" + request.method());
-        Log.d(LOG_TAG, "│【请求参数】：" + body);
-        Log.d(LOG_TAG, "│【请求路径】：" + response.request().url());
-        Log.d(LOG_TAG, "│【请求回调】：" + rBody);
-        Log.d(LOG_TAG, "├─────────────────────────────────────────────────────────────────");
+        Log.d(TAG, "├─────────────────────────────────────────────────────────────────");
+        Log.d(TAG, "│【请求响应码】" + response.code());
+        Log.d(TAG, "│【请求头】：" + request.headers());
+        Log.d(TAG, "│【请求方法】：" + request.method());
+        Log.d(TAG, "│【请求参数】：" + body);
+        Log.d(TAG, "│【请求路径】：" + response.request().url());
+        Log.d(TAG, "│【请求回调】：" + rBody);
+        Log.d(TAG, "├─────────────────────────────────────────────────────────────────");
         return response;
     }
 }

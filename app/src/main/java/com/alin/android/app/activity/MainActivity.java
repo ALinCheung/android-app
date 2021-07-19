@@ -16,14 +16,15 @@ import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.alin.android.app.adapter.MainGvAdapter;
-import com.alin.android.app.service.app.AppService;
 import com.alin.android.app.common.BaseAppActivity;
+import com.alin.android.app.common.BaseAppObserver;
 import com.alin.android.app.fragment.BannerFragment;
 import com.alin.android.app.model.App;
 import com.alin.android.app.model.Banner;
+import com.alin.android.app.service.app.AppService;
 import com.alin.android.core.manager.RetrofitManager;
+import com.alin.android.core.model.Result;
 import com.alin.app.R;
-import io.reactivex.functions.Consumer;
 
 import java.util.List;
 
@@ -58,10 +59,12 @@ public class MainActivity extends BaseAppActivity {
 
         AppService appService = retrofit.create(AppService.class);
         // 轮播图
-        appService.getBannerList().compose(RetrofitManager.<List<Banner>>IoMain())
-                .subscribe(new Consumer<List<Banner>>() {
+        appService.getBannerList().compose(RetrofitManager.<Result<List<Banner>>>ioMain())
+                .subscribe(new BaseAppObserver<Result<List<Banner>>>(this) {
                     @Override
-                    public void accept(List<Banner> bannerList) throws Exception {
+                    public void onAccept(Result<List<Banner>> result, String error) {
+                        super.onAccept(result, error);
+                        List<Banner> bannerList = result.getData();
                         FragmentManager fragmentManager = getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.add(R.id.main_banner_linear, new BannerFragment(context, bannerList));
@@ -70,10 +73,12 @@ public class MainActivity extends BaseAppActivity {
                 });
 
         // 功能列表
-        appService.getAppList().compose(RetrofitManager.<List<App>>IoMain())
-                .subscribe(new Consumer<List<App>>() {
+        appService.getAppList().compose(RetrofitManager.<Result<List<App>>>ioMain())
+                .subscribe(new BaseAppObserver<Result<List<App>>>(this, true) {
                     @Override
-                    public void accept(final List<App> appList) throws Exception {
+                    public void onAccept(Result<List<App>> result, String error) {
+                        super.onAccept(result, error);
+                        final List<App> appList = result.getData();
                         mainGlView.setAdapter(new MainGvAdapter(appList, R.layout.main_gridview_item));
                         mainGlView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override

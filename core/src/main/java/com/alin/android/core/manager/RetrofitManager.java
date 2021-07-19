@@ -4,9 +4,11 @@ import android.content.Context;
 import com.alin.android.core.interceptor.HeaderInterceptor;
 import com.alin.android.core.interceptor.LogInterceptor;
 import com.alin.android.core.interceptor.ParamsInterceptor;
+import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -15,6 +17,7 @@ import ren.yale.android.retrofitcachelibrx2.intercept.CacheForceInterceptorNoNet
 import ren.yale.android.retrofitcachelibrx2.intercept.CacheInterceptorOnNet;
 import ren.yale.android.retrofitcachelibrx2.intercept.MockInterceptor;
 import ren.yale.android.retrofitcachelibrx2.transformer.CacheTransformer;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -64,7 +67,7 @@ public class RetrofitManager {
         return retrofits.get(baseUrl);
     }
 
-    public static <T> ObservableTransformer<T, T> IoMain() {
+    public static <T> ObservableTransformer<T, T> ioMain() {
         return new ObservableTransformer<T, T>() {
             @Override
             public ObservableSource<T> apply(io.reactivex.Observable<T> upstream) {

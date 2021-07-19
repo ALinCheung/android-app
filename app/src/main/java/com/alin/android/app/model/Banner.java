@@ -7,7 +7,8 @@ package com.alin.android.app.model;
 public class Banner {
     private String id;
     private String name;
-    private String url;
+    private String imageUrl;
+    private String targetUrl;
 
     public String getId() {
         return id;
@@ -25,11 +26,19 @@ public class Banner {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getTargetUrl() {
+        return targetUrl;
+    }
+
+    public void setTargetUrl(String targetUrl) {
+        this.targetUrl = targetUrl;
     }
 }

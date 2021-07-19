@@ -19,12 +19,24 @@ import java.net.UnknownHostException;
  */
 public abstract class BaseObserver<T> extends ResourceObserver<T> {
 
+    protected BaseActivity activity;
+    protected Boolean isShowLoading = false;
+
     protected BaseObserver() {
+    }
+
+    protected BaseObserver(BaseActivity activity) {
+        this.activity = activity;
+    }
+
+    protected BaseObserver(BaseActivity activity, Boolean isShowLoading) {
+        this.activity = activity;
+        this.isShowLoading = isShowLoading;
     }
 
     @Override
     public void onNext(@NonNull T value) {
-        onAccept(value, "");
+        onAccept(value, null);
     }
 
     @Override
@@ -70,7 +82,17 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
     }
 
     @Override
+    protected void onStart() {
+        if (isShowLoading && activity != null) {
+            activity.showLoadingDialog("加载中");
+        }
+    }
+
+    @Override
     public void onComplete() {
+        if (activity != null) {
+            activity.dismissDialog();
+        }
     }
 
     public abstract void onAccept(T t, String error);

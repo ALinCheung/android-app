@@ -34,7 +34,7 @@ public class BannerPageAdapter extends PagerAdapter implements View.OnTouchListe
     public Object instantiateItem(ViewGroup container, int position) {
         Banner banner = bannerList.get(position % bannerList.size());
         HttpImageView imageView = new HttpImageView(context);
-        imageView.setImageURL(banner.getUrl(), "/image/banner/"+banner.getId()+".jpg");
+        imageView.setImageURL(banner.getImageUrl(), "/image/banner/"+banner.getId()+".jpg");
         imageView.setOnTouchListener(this);
         container.addView(imageView);
         return imageView;

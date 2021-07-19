@@ -232,6 +232,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
      * 关闭提示框
      */
     public void dismissDialog() {
+        if (promptDialog == null) {
+            promptDialog = new PromptDialog(this);
+        }
         promptDialog.dismiss();
     }
 }

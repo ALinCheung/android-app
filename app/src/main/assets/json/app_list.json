@@ -1,22 +1,26 @@
-[
-  {
-    "id": 1,
-    "name": "计算机",
-    "clazz": "com.alin.android.app.activity.CalculatorActivity"
-  },
-  {
-    "id": 2,
-    "name": "浏览器",
-    "clazz": "com.alin.android.app.activity.BrowserActivity"
-  },
-  {
-    "id": 3,
-    "name": "旋转",
-    "clazz": "com.alin.android.app.activity.RotateActivity"
-  },
-  {
-    "id": 4,
-    "name": "选择器",
-    "clazz": "com.alin.android.app.activity.PickerActivity"
-  }
-]
+{
+  "code": "0",
+  "message": "success",
+  "data": [
+    {
+      "id": 1,
+      "name": "计算机",
+      "clazz": "com.alin.android.app.activity.CalculatorActivity"
+    },
+    {
+      "id": 2,
+      "name": "浏览器",
+      "clazz": "com.alin.android.app.activity.BrowserActivity"
+    },
+    {
+      "id": 3,
+      "name": "旋转",
+      "clazz": "com.alin.android.app.activity.RotateActivity"
+    },
+    {
+      "id": 4,
+      "name": "选择器",
+      "clazz": "com.alin.android.app.activity.PickerActivity"
+    }
+  ]
+}
