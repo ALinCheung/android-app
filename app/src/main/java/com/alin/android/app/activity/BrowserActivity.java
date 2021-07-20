@@ -9,7 +9,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import com.alin.android.app.common.BaseAppActivity;
-import com.alin.android.app.constant.CommonConstant;
+import com.alin.android.app.constant.Constant;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -28,8 +28,8 @@ public class BrowserActivity extends BaseAppActivity {
 
         // 获取跳转地址
         Intent intent = getIntent();
-        String url = CommonConstant.BROWSER_DEFAULT_URL;
-        String intentUrl = intent.getStringExtra(CommonConstant.BROWSER_URL_KEY);
+        String url = Constant.BROWSER_DEFAULT_URL;
+        String intentUrl = intent.getStringExtra(Constant.KEY_BROWSER_URL);
         if (StringUtils.isNotBlank(intentUrl)) {
             url = intentUrl;
         }

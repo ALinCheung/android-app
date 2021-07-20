@@ -23,12 +23,14 @@ android {
                 // but continue the build even when errors are found:
                 abortOnError false
             }
-            minifyEnabled false
+            // 混淆代码
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     sourceSets {
         main {
+            // 资源目录
             res.srcDirs = [
                 "src/main/res/layout/picker",
                 "src/main/res/layout/rotate",
@@ -40,6 +42,11 @@ android {
                 "src/main/res/layout/common",
                 "src/main/res/layout",
                 "src/main/res"
+            ]
+            // 环境配置目录
+            assets.srcDirs = [
+                "src/main/assets",
+                "src/main/profiles/${profile}"
             ]
         }
     }

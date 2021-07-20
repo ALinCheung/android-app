@@ -3,13 +3,12 @@ package com.alin.android.app.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.viewpager.widget.PagerAdapter;
 import com.alin.android.app.activity.BrowserActivity;
-import com.alin.android.app.constant.CommonConstant;
+import com.alin.android.app.constant.Constant;
 import com.alin.android.app.model.Banner;
 import com.alin.android.app.view.HttpImageView;
 
@@ -87,7 +86,7 @@ public class BannerPageAdapter extends PagerAdapter implements View.OnTouchListe
         // 设置跳转地址
         HttpImageView httpImageView = (HttpImageView) v;
         Intent intent = new Intent(context, BrowserActivity.class);
-        intent.putExtra(CommonConstant.BROWSER_URL_KEY, httpImageView.getTargetUrl());
+        intent.putExtra(Constant.KEY_BROWSER_URL, httpImageView.getTargetUrl());
         context.startActivity(intent);
     }
 }
