@@ -25,4 +25,9 @@ public class SearchActvAdapter extends BaseFilterAdapter<App> {
     protected boolean filterCharSequence(App o, CharSequence charSequence) {
         return o.getName().contains(charSequence.toString().trim());
     }
+
+    @Override
+    protected String getResultString(App o) {
+        return o.getName();
+    }
 }

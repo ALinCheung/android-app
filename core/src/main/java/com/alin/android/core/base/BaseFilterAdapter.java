@@ -71,6 +71,11 @@ public abstract class BaseFilterAdapter<T> extends BaseCoreAdapter<T> implements
                     notifyDataSetInvalidated();
                 }
             }
+
+            @Override
+            public CharSequence convertResultToString(Object resultValue) {
+                return super.convertResultToString(getResultString((T) resultValue));
+            }
         };
     }
 
@@ -82,4 +87,10 @@ public abstract class BaseFilterAdapter<T> extends BaseCoreAdapter<T> implements
      */
     protected abstract boolean filterCharSequence(T o, CharSequence charSequence);
 
+    /**
+     * 获取结果字符串
+     * @param o
+     * @return
+     */
+    protected abstract String getResultString(T o);
 }
