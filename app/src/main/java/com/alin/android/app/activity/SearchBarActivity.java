@@ -12,11 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
-import com.alibaba.fastjson.JSONObject;
 import com.alin.android.app.adapter.SearchActvAdapter;
 import com.alin.android.app.common.BaseAppActivity;
+import com.alin.android.app.common.BaseAppObserver;
 import com.alin.android.app.model.App;
+import com.alin.android.app.service.app.AppService;
+import com.alin.android.core.manager.RetrofitManager;
+import com.alin.android.core.model.Result;
 import com.alin.app.R;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -48,20 +52,27 @@ public class SearchBarActivity extends BaseAppActivity {
         cancelTv = (TextView) findViewById(R.id.search_bar_cancel);
 
         // 输入文本框
-        String assetsString = getAssetsString("json/app_list.json");
-        appList = JSONObject.parseArray(assetsString, App.class);
-        actv.setAdapter(new SearchActvAdapter(context, appList));
-        actv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_SEARCH){
-                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    search();
-                }
-                return false;
-            }
-        });
+        retrofit.create(AppService.class).getAppList()
+                .compose(RetrofitManager.<Result<List<App>>>ioMain())
+                .subscribe(new BaseAppObserver<Result<List<App>>>(this) {
+                    @Override
+                    public void onAccept(Result<List<App>> o, String error) {
+                        super.onAccept(o, error);
+                        appList = o.getData();
+                        actv.setAdapter(new SearchActvAdapter(appList, R.layout.support_simple_spinner_dropdown_item, context));
+                        actv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                            @Override
+                            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                                if (i == EditorInfo.IME_ACTION_SEARCH){
+                                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                                    search();
+                                }
+                                return false;
+                            }
+                        });
+                    }
+                });
         // 删除按钮
         deleteIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +98,7 @@ public class SearchBarActivity extends BaseAppActivity {
                 targetApp = app;
             }
         }
-        if (targetApp != null && targetApp.getClazz() != null && !"".equals(targetApp.getClazz())){
+        if (targetApp != null && StringUtils.isNotBlank(targetApp.getClazz())){
             Class<?> clazz = null;
             try {
                 clazz = getClassLoader().loadClass(targetApp.getClazz());
@@ -96,6 +107,8 @@ public class SearchBarActivity extends BaseAppActivity {
             }
             Intent intent = new Intent(context, clazz);
             startActivity(intent);
+        } else {
+            showErrorDialog("未找到应用");
         }
     }
 }

@@ -22,11 +22,15 @@ public abstract class BaseCoreAdapter<T> extends BaseAdapter {
     /**
      * 数据集合
      */
-    private List<T> mData;
+    protected List<T> mData;
     /**
      * 布局id
      */
-    private int mLayoutRes;
+    protected int mLayoutRes;
+    /**
+     * 上下文
+     */
+    protected Context mContext;
 
     public BaseCoreAdapter() {
     }
@@ -34,6 +38,12 @@ public abstract class BaseCoreAdapter<T> extends BaseAdapter {
     public BaseCoreAdapter(List<T> mData, int mLayoutRes) {
         this.mData = mData;
         this.mLayoutRes = mLayoutRes;
+    }
+
+    public BaseCoreAdapter(List<T> mData, int mLayoutRes, Context mContext) {
+        this.mData = mData;
+        this.mLayoutRes = mLayoutRes;
+        this.mContext = mContext;
     }
 
     @Override
@@ -53,7 +63,7 @@ public abstract class BaseCoreAdapter<T> extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = ViewHolder.bind(parent.getContext(), convertView, parent, mLayoutRes
+        ViewHolder holder = ViewHolder.bind(mContext != null?mContext:parent.getContext(), convertView, parent, mLayoutRes
                 , position);
         bindView(holder, getItem(position));
         return holder.getItemView();
