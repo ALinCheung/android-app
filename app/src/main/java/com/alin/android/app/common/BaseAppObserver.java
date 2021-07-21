@@ -13,6 +13,10 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class BaseAppObserver<T> extends BaseObserver<T> {
 
+    protected BaseAppObserver() {
+        super();
+    }
+
     protected BaseAppObserver(BaseActivity activity) {
         super(activity);
     }

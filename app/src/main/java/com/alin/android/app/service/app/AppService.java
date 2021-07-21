@@ -1,6 +1,7 @@
 package com.alin.android.app.service.app;
 
 import com.alin.android.app.model.App;
+import com.alin.android.app.model.AppVersion;
 import com.alin.android.app.model.Banner;
 import com.alin.android.core.model.Result;
 import io.reactivex.Observable;
@@ -15,6 +16,10 @@ import java.util.List;
  * @Date 2021/7/16 17:59
  */
 public interface AppService {
+
+    @Mock(assets = "json/app_version.json")
+    @GET("/app/version")
+    Observable<Result<AppVersion>> getAppVersion();
 
     @Mock(assets = "json/app_list.json")
     @GET("/app/list")

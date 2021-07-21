@@ -38,7 +38,6 @@ public class SplashActivity extends BaseAppActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        AppStatusManager.getInstance().setAppStatus(AppStatusConstant.STATUS_NORMAL);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
@@ -54,6 +53,8 @@ public class SplashActivity extends BaseAppActivity {
                     mHandle.sendMessageDelayed(Message.obtain(mHandle, SPLASH_PROCESS, second, 0, mSplashSecondTv), (PROCESS_SECOND - second) * 1000);
                 }
                 mHandle.sendEmptyMessageDelayed(SPLASH_END, (PROCESS_SECOND + 1) * 1000);
+                // 版本检测状态
+                AppStatusManager.getInstance().setAppStatus(AppStatusConstant.STATUS_VERSION_CHECK);
             }
         });
     }

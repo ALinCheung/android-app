@@ -61,12 +61,26 @@
                 android:theme="@style/AppTheme.NoActionBar"
                 android:name="com.alin.android.app.activity.PickerActivity">
         </activity>
+
+        <provider
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="com.alin.android.app.fileProvider"
+                android:grantUriPermissions="true"
+                android:exported="false">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
     <!--读取联系人-->
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <!--调用摄像头-->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!--读取文件-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!--写入文件-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!--连接网络-->
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

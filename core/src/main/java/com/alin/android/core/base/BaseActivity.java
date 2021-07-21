@@ -161,7 +161,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
 
     private void startApp(Class clz) {
         if (clz != null) {
-            Toast.makeText(getApplicationContext(), "启动页", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, clz);
             // 清空页面栈并启动
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
