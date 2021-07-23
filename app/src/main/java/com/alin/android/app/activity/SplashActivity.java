@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.alin.android.app.common.BaseAppActivity;
-import com.alin.android.core.constant.AppStatusConstant;
+import com.alin.android.core.constant.AppStatus;
 import com.alin.android.core.manager.AppStatusManager;
 import com.alin.app.R;
 
@@ -54,7 +54,7 @@ public class SplashActivity extends BaseAppActivity {
                 }
                 mHandle.sendEmptyMessageDelayed(SPLASH_END, (PROCESS_SECOND + 1) * 1000);
                 // 版本检测状态
-                AppStatusManager.getInstance().setAppStatus(AppStatusConstant.STATUS_VERSION_CHECK);
+                AppStatusManager.getInstance().setAppStatus(AppStatus.STATUS_VERSION_CHECK);
             }
         });
     }

@@ -50,6 +50,11 @@ android {
             ]
         }
     }
+    // 编译版本, 解决lambda写法
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {

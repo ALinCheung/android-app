@@ -1,5 +1,7 @@
 package com.alin.android.app.model;
 
+import com.alin.android.app.constant.InstallType;
+
 /**
  * @Description 应用版本实体类
  * @Author zhangwl
@@ -7,6 +9,7 @@ package com.alin.android.app.model;
  */
 public class AppVersion {
     private String version;
+    private String install_type = InstallType.MARKET;
     private String apk_url;
     private String description;
 
@@ -16,6 +19,14 @@ public class AppVersion {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public String getInstall_type() {
+        return install_type;
+    }
+
+    public void setInstall_type(String install_type) {
+        this.install_type = install_type;
     }
 
     public String getApk_url() {

@@ -5,22 +5,32 @@
     {
       "id": 1,
       "name": "计算机",
+      "type": "1",
       "clazz": "com.alin.android.app.activity.CalculatorActivity"
     },
     {
       "id": 2,
       "name": "浏览器",
+      "type": "1",
       "clazz": "com.alin.android.app.activity.BrowserActivity"
     },
     {
       "id": 3,
       "name": "旋转",
+      "type": "1",
       "clazz": "com.alin.android.app.activity.RotateActivity"
     },
     {
       "id": 4,
       "name": "选择器",
+      "type": "1",
       "clazz": "com.alin.android.app.activity.PickerActivity"
+    },
+    {
+      "id": 5,
+      "name": "版本检测",
+      "type": "2",
+      "method": "appVersionCheck"
     }
   ]
 }

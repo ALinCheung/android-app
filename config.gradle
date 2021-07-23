@@ -45,7 +45,7 @@ ext {
             // okhttp请求框架
             okhttp: 'com.squareup.okhttp3:okhttp:3.12.8',
             logging_interceptor: 'com.squareup.okhttp3:logging-interceptor:3.12.8',
-            // 响应式变成框架
+            // 响应式编程框架
             rxjava: 'io.reactivex.rxjava2:rxjava:2.1.9',
             rxandroid: 'io.reactivex.rxjava2:rxandroid:2.0.2',
             // 状态栏工具
@@ -56,6 +56,7 @@ ext {
             BGARefreshLayout_Android: 'com.github.bingoogolapple:BGARefreshLayout-Android:2.0.1',
             // 弹窗提示
             Android_PromptDialog: 'com.github.limxing:Android-PromptDialog:1.1.3',
+            Android_CircleDialog: 'com.github.mylhyl:Android-CircleDialog:5.3.8',
             // 日期选择框
             DatePickerView: 'com.github.limxing:DatePickerView:1.1.0',
     ]

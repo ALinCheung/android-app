@@ -1,6 +1,6 @@
 package com.alin.android.core.manager;
 
-import com.alin.android.core.constant.AppStatusConstant;
+import com.alin.android.core.constant.AppStatus;
 
 /**
  * @Description APP状态管理器
@@ -11,7 +11,7 @@ public class AppStatusManager {
     /**
      * APP状态 初始值为没启动 不在前台状态
      */
-    public int appStatus = AppStatusConstant.STATUS_FORCE_KILLED;
+    public int appStatus = AppStatus.STATUS_FORCE_KILLED;
 
     public static AppStatusManager appStatusManager;
 

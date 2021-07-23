@@ -18,10 +18,13 @@ import butterknife.ButterKnife;
 import com.alin.android.app.adapter.MainGvAdapter;
 import com.alin.android.app.common.BaseAppActivity;
 import com.alin.android.app.common.BaseAppObserver;
+import com.alin.android.app.constant.AppType;
 import com.alin.android.app.fragment.BannerFragment;
 import com.alin.android.app.model.App;
 import com.alin.android.app.model.Banner;
 import com.alin.android.app.service.app.AppService;
+import com.alin.android.core.constant.AppStatus;
+import com.alin.android.core.manager.AppStatusManager;
 import com.alin.android.core.manager.RetrofitManager;
 import com.alin.android.core.model.Result;
 import com.alin.app.R;
@@ -84,15 +87,7 @@ public class MainActivity extends BaseAppActivity {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 TextView tv = (TextView) view.findViewById(R.id.main_gl_item_tv);
-                                Toast.makeText(context, tv.getText(), Toast.LENGTH_LONG).show();
-                                Class<?> clz = null;
-                                try {
-                                    clz = getClassLoader().loadClass(appList.get(i).getClazz());
-                                } catch (ClassNotFoundException e) {
-                                    e.printStackTrace();
-                                }
-                                Intent intent = new Intent(context, clz);
-                                startActivity(intent);
+                                appDistribution(appList.get(i));
                             }
                         });
                     }
@@ -108,6 +103,34 @@ public class MainActivity extends BaseAppActivity {
                         .setAction("Action", null).show();
             }
         });*/
+    }
+
+    /**
+     * 按应用类型分发应用功能
+     * @param app
+     */
+    private void appDistribution(App app) {
+        try {
+            switch (app.getType()) {
+                case AppType.ACTIVITY:
+                    Class<?> clz = getClassLoader().loadClass(app.getClazz());
+                    Intent intent = new Intent(context, clz);
+                    startActivity(intent);
+                    break;
+                case AppType.BUTTON:
+                    this.getClass().getDeclaredMethod(app.getMethod()).invoke(this);
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void appVersionCheck() {
+        AppStatusManager.getInstance().setAppStatus(AppStatus.STATUS_VERSION_CHECK);
+        super.appVersionCheck(false);
     }
 
     @Override

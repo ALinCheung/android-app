@@ -32,10 +32,10 @@ android {
         }
     }
     // 编译版本, 解决lambda写法
-    /*compileOptions {
+    compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }*/
+    }
     // 解决包名重复
     /*packagingOptions {
         exclude 'META-INF/androidx.legacy_legacy-support-core-utils.version'
@@ -107,6 +107,7 @@ dependencies {
     api library.BGARefreshLayout_Android
     // 弹窗提示
     api library.Android_PromptDialog
+    api library.Android_CircleDialog
     // 日期选择框
     api library.DatePickerView
 }

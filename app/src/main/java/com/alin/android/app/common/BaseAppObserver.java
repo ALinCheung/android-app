@@ -1,6 +1,6 @@
 package com.alin.android.app.common;
 
-import com.alin.android.app.constant.ReturnCode;
+import com.alin.android.core.constant.ReturnCode;
 import com.alin.android.core.base.BaseActivity;
 import com.alin.android.core.base.BaseObserver;
 import com.alin.android.core.model.Result;
@@ -29,11 +29,13 @@ public class BaseAppObserver<T> extends BaseObserver<T> {
     public void onAccept(T o, String error) {
         if (StringUtils.isNotBlank(error)) {
             activity.showErrorDialog(error);
+            return;
         }
         if (o instanceof Result) {
             Result result = (Result) o;
             if (ReturnCode.FAIL == result.getCode()) {
                 activity.showErrorDialog(result.getMessage());
+                return;
             }
         }
     }

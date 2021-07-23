@@ -5,22 +5,19 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-import android.widget.Toolbar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
-import com.alin.android.core.constant.AppStatusConstant;
+import com.alin.android.core.constant.AppStatus;
 import com.alin.android.core.manager.AppStatusManager;
 import com.alin.app.R;
 import com.jaeger.library.StatusBarUtil;
+import com.mylhyl.circledialog.CircleDialog;
 import me.leefeng.promptlibrary.PromptDialog;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Properties;
 
 /**
  * @description: 基础活动
@@ -154,7 +151,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     }
 
     protected void setStartPage() {
-        if (AppStatusManager.getInstance().appStatus == AppStatusConstant.STATUS_FORCE_KILLED) {
+        if (AppStatusManager.getInstance().appStatus == AppStatus.STATUS_FORCE_KILLED) {
             startApp(getStartActivity());
         }
     }
@@ -189,13 +186,16 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
     }
 
     /**
-     * 警告框
+     * 信息提示框
      */
     public void showInfoDialog(String msg) {
-        if (promptDialog == null) {
-            promptDialog = new PromptDialog(this);
-        }
-        promptDialog.showInfo(msg);
+        new CircleDialog.Builder()
+                .setTitle("信息")
+                .configTitle(params -> params.isShowBottomDivider = true)
+                .setWidth(0.7f)
+                .setText(msg)
+                .setPositive("确定", null)
+                .show(getSupportFragmentManager());
     }
 
     /**

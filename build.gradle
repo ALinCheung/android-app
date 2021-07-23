@@ -9,7 +9,7 @@ buildscript {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/google/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.android.tools.build:gradle:3.5.0'
         //classpath 'com.android.tools.build:gradle:3.6.0' ViewBinding
         classpath 'com.jakewharton:butterknife-gradle-plugin:10.0.0'
 
