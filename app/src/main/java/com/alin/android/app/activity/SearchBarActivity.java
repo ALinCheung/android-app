@@ -19,7 +19,7 @@ import com.alin.android.app.model.App;
 import com.alin.android.app.service.app.AppService;
 import com.alin.android.core.manager.RetrofitManager;
 import com.alin.android.core.model.Result;
-import com.alin.app.R;
+import com.alin.android.app.R;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;

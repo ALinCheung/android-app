@@ -3,7 +3,7 @@ package com.alin.android.core.utils;
 import android.os.Build;
 
 /**
- * @Description TODO
+ * @Description 系统工具类
  * @Author zhangwl
  * @Date 2021/7/23 17:23
  */

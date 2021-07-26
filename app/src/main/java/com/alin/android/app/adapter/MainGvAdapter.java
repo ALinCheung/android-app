@@ -2,7 +2,7 @@ package com.alin.android.app.adapter;
 
 import com.alin.android.app.model.App;
 import com.alin.android.core.base.BaseCoreAdapter;
-import com.alin.app.R;
+import com.alin.android.app.R;
 
 import java.util.List;
 

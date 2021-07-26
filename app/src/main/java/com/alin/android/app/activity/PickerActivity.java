@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.alin.android.app.common.BaseAppActivity;
-import com.alin.app.R;
+import com.alin.android.app.R;
 import top.leefeng.datepicker.DatePickerView;
 
 /**

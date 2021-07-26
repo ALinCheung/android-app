@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import com.alin.android.app.common.BaseAppActivity;
-import com.alin.app.R;
+import com.alin.android.app.R;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;

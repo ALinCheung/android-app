@@ -99,6 +99,10 @@ dependencies {
     // 响应式变成框架
     api library.rxjava
     api library.rxandroid
+    // web视图容器
+    api library.agentweb_core
+    api library.agentweb_filechooser
+    api library.agentweb_Downloader
     // 状态栏工具
     api library.library
     // 滑动返回组件

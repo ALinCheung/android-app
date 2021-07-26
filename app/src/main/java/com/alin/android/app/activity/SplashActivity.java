@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 import com.alin.android.app.common.BaseAppActivity;
 import com.alin.android.core.constant.AppStatus;
 import com.alin.android.core.manager.AppStatusManager;
-import com.alin.app.R;
+import com.alin.android.app.R;
 
 import java.lang.ref.WeakReference;
 import java.util.Date;

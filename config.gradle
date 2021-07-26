@@ -48,6 +48,10 @@ ext {
             // 响应式编程框架
             rxjava: 'io.reactivex.rxjava2:rxjava:2.1.9',
             rxandroid: 'io.reactivex.rxjava2:rxandroid:2.0.2',
+            // web视图容器
+            agentweb_core: 'com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx',
+            agentweb_filechooser: 'com.github.Justson.AgentWeb:agentweb-filechooser:v4.1.9-androidx',
+            agentweb_Downloader: 'com.github.Justson:Downloader:v4.1.9-androidx',
             // 状态栏工具
             library: 'com.jaeger.statusbarutil:library:1.5.1',
             // 滑动返回组件

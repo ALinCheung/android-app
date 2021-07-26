@@ -7,7 +7,7 @@ import android.os.Message;
 import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import com.alin.android.app.common.BaseAppActivity;
-import com.alin.app.R;
+import com.alin.android.app.R;
 
 import java.util.Timer;
 import java.util.TimerTask;

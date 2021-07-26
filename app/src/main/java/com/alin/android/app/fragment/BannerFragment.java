@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-import com.alin.app.R;
+import com.alin.android.app.R;
 import com.alin.android.app.adapter.BannerPageAdapter;
 import com.alin.android.app.model.Banner;
 import com.alin.android.app.view.HttpImageView;
