@@ -128,12 +128,14 @@ public class BannerFragment extends Fragment implements ViewPager.OnPageChangeLi
             public void run() {
                 while (!isStop) {
                     SystemClock.sleep(PAGER_TIME);
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            bannerViewPager.setCurrentItem(bannerViewPager.getCurrentItem() + 1);
-                        }
-                    });
+                    if (isAdded()) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                bannerViewPager.setCurrentItem(bannerViewPager.getCurrentItem() + 1);
+                            }
+                        });
+                    }
                 }
             }
         }).start();
