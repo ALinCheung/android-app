@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 import com.alin.android.core.constant.AppStatus;
 import com.alin.android.core.manager.AppStatusManager;
-import com.alin.android.app.R;
+import com.alin.android.core.R;
 import com.jaeger.library.StatusBarUtil;
 import com.mylhyl.circledialog.CircleDialog;
 import me.leefeng.promptlibrary.PromptDialog;
