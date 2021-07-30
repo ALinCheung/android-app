@@ -28,6 +28,9 @@ import com.download.library.ResourceRequest;
 import com.just.agentweb.*;
 import org.apache.commons.lang3.StringUtils;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * @author: Create By ZhangWenLin
  * @create: 2018-11-09 16:39
@@ -36,8 +39,11 @@ public class BrowserActivity extends BaseAppActivity {
 
     private Context mContext;
     private AgentWeb mAgentWeb;
+    @BindView(R.id.container)
     private LinearLayout mLinearLayout;
+    @BindView(R.id.toolbar)
     private Toolbar mToolbar;
+    @BindView(R.id.toolbar_title)
     private TextView mTitleTextView;
     private long exitTime = 0;
 
@@ -45,6 +51,7 @@ public class BrowserActivity extends BaseAppActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.browser_activity);
+        ButterKnife.bind(this);
 
         // 获取跳转地址
         Intent intent = getIntent();
@@ -55,11 +62,8 @@ public class BrowserActivity extends BaseAppActivity {
         }
 
         mContext = this;
-        mLinearLayout = (LinearLayout) findViewById(R.id.container);
-        mToolbar = (Toolbar) this.findViewById(R.id.toolbar);
         mToolbar.setTitleTextColor(Color.WHITE);
         mToolbar.setTitle("");
-        mTitleTextView = (TextView) this.findViewById(R.id.toolbar_title);
         this.setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null) {
             // Enable the Up button
