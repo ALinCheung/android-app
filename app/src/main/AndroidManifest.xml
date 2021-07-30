@@ -46,7 +46,7 @@
 
         <!--浏览器-->
         <activity
-                android:theme="@style/AppTheme"
+                android:theme="@style/AppTheme.NoActionBar"
                 android:name="com.alin.android.app.activity.BrowserActivity">
         </activity>
 

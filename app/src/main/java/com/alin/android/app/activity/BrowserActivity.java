@@ -4,15 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+
 import com.alin.android.app.R;
 import com.alin.android.app.common.BaseAppActivity;
 import com.alin.android.app.constant.Constant;
@@ -32,7 +37,8 @@ public class BrowserActivity extends BaseAppActivity {
     private Context mContext;
     private AgentWeb mAgentWeb;
     private LinearLayout mLinearLayout;
-    private TextView receiveTitle;
+    private Toolbar mToolbar;
+    private TextView mTitleTextView;
     private long exitTime = 0;
 
     @Override
@@ -50,6 +56,22 @@ public class BrowserActivity extends BaseAppActivity {
 
         mContext = this;
         mLinearLayout = (LinearLayout) findViewById(R.id.container);
+        mToolbar = (Toolbar) this.findViewById(R.id.toolbar);
+        mToolbar.setTitleTextColor(Color.WHITE);
+        mToolbar.setTitle("");
+        mTitleTextView = (TextView) this.findViewById(R.id.toolbar_title);
+        this.setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null) {
+            // Enable the Up button
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent((LinearLayout) mLinearLayout, new LinearLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator()
@@ -69,12 +91,11 @@ public class BrowserActivity extends BaseAppActivity {
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-
             // 设置接收到的 title
-            if (receiveTitle != null) {
-                receiveTitle.setText(title);
+            super.onReceivedTitle(view, title);
+            if (mTitleTextView != null) {
+                mTitleTextView.setText(title);
             }
-
         }
     };
 
