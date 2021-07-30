@@ -40,11 +40,11 @@ public class BrowserActivity extends BaseAppActivity {
     private Context mContext;
     private AgentWeb mAgentWeb;
     @BindView(R.id.container)
-    private LinearLayout mLinearLayout;
+    public LinearLayout mLinearLayout;
     @BindView(R.id.toolbar)
-    private Toolbar mToolbar;
+    public Toolbar mToolbar;
     @BindView(R.id.toolbar_title)
-    private TextView mTitleTextView;
+    public TextView mTitleTextView;
     private long exitTime = 0;
 
     @Override
