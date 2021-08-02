@@ -70,7 +70,7 @@ public class MainActivity extends BaseAppActivity {
                         List<Banner> bannerList = result.getData();
                         FragmentManager fragmentManager = getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.add(R.id.main_banner_linear, new BannerFragment(context, bannerList));
+                        fragmentTransaction.add(R.id.main_banner_linear, new BannerFragment(bannerList));
                         fragmentTransaction.commit();
                     }
                 });
