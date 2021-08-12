@@ -112,6 +112,13 @@ dependencies {
     // 弹窗提示
     api library.Android_PromptDialog
     api library.Android_CircleDialog
-    // 日期选择框
-    api library.DatePickerView
+    // 选择器
+    api library.AndroidPicker_Common
+    api library.AndroidPicker_WheelView
+    api library.AndroidPicker_WheelPicker
+    api library.AndroidPicker_AddressPicker
+    api library.AndroidPicker_ColorPicker
+    api library.AndroidPicker_FilePicker
+    api library.AndroidPicker_CalendarPicker
+    api library.AndroidPicker_ImagePicker
 }

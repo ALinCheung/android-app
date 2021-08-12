@@ -2,16 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent">
-	<TextView
-			android:text="@string/date_picker"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-	/>
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
 
-	<top.leefeng.datepicker.DatePickerView
-			android:id="@+id/date_picker_view"
+		<Button
 			android:layout_width="match_parent"
-			android:layout_height="300dp"
-	/>
+			android:layout_height="wrap_content"
+			android:onClick="onCalendarDateSingle"
+			android:text="日历单个日期选择（如航班出发日期）" />
+
+		<Button
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:onClick="onYearMonthDayTime"
+			android:text="年月日时间选择"
+			android:textColor="#FF333333" />
+
+		<Button
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:onClick="onYearMonthDay"
+			android:text="年月日选择"
+			android:textColor="#FF333333" />
+	</LinearLayout>
 
 </LinearLayout>

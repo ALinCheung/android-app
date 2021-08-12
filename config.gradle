@@ -61,7 +61,14 @@ ext {
             // 弹窗提示
             Android_PromptDialog: 'com.github.limxing:Android-PromptDialog:1.1.3',
             Android_CircleDialog: 'com.github.mylhyl:Android-CircleDialog:5.3.8',
-            // 日期选择框
-            DatePickerView: 'com.github.limxing:DatePickerView:1.1.0',
+            // 选择器
+            AndroidPicker_Common: 'com.gitee.li_yu_jiang.AndroidPicker:Common:3.1.0',
+            AndroidPicker_WheelView: 'com.gitee.li_yu_jiang.AndroidPicker:WheelView:3.1.0',
+            AndroidPicker_WheelPicker: 'com.gitee.li_yu_jiang.AndroidPicker:WheelPicker:3.1.0',
+            AndroidPicker_AddressPicker: 'com.gitee.li_yu_jiang.AndroidPicker:AddressPicker:3.1.0',
+            AndroidPicker_ColorPicker: 'com.gitee.li_yu_jiang.AndroidPicker:ColorPicker:3.1.0',
+            AndroidPicker_FilePicker: 'com.gitee.li_yu_jiang.AndroidPicker:FilePicker:3.1.0',
+            AndroidPicker_CalendarPicker: 'com.gitee.li_yu_jiang.AndroidPicker:CalendarPicker:3.1.0',
+            AndroidPicker_ImagePicker: 'com.gitee.li_yu_jiang.AndroidPicker:ImagePicker:3.1.0',
     ]
 }
