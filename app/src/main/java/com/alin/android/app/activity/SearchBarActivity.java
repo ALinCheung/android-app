@@ -16,7 +16,7 @@ import com.alin.android.app.adapter.SearchActvAdapter;
 import com.alin.android.app.common.BaseAppActivity;
 import com.alin.android.app.common.BaseAppObserver;
 import com.alin.android.app.model.App;
-import com.alin.android.app.service.app.AppService;
+import com.alin.android.app.api.app.AppApi;
 import com.alin.android.core.manager.RetrofitManager;
 import com.alin.android.core.model.Result;
 import com.alin.android.app.R;
@@ -52,7 +52,7 @@ public class SearchBarActivity extends BaseAppActivity {
         cancelTv = (TextView) findViewById(R.id.search_bar_cancel);
 
         // 输入文本框
-        retrofit.create(AppService.class).getAppList()
+        retrofit.create(AppApi.class).getAppList()
                 .compose(RetrofitManager.<Result<List<App>>>ioMain())
                 .subscribe(new BaseAppObserver<Result<List<App>>>(this) {
                     @Override

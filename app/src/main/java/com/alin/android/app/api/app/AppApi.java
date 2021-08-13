@@ -1,4 +1,4 @@
-package com.alin.android.app.service.app;
+package com.alin.android.app.api.app;
 
 import com.alin.android.app.model.App;
 import com.alin.android.app.model.AppVersion;
@@ -15,7 +15,7 @@ import java.util.List;
  * @Author zhangwl
  * @Date 2021/7/16 17:59
  */
-public interface AppService {
+public interface AppApi {
 
     @Mock(assets = "json/app_version.json")
     @GET("/app/version")

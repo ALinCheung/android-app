@@ -1,4 +1,4 @@
-package com.alin.android.app.service.download;
+package com.alin.android.app.api.download;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
@@ -11,7 +11,7 @@ import retrofit2.http.Url;
  * @Author zhangwl
  * @Date 2021/7/21 15:58
  */
-public interface DownloadService {
+public interface DownloadApi {
 
     @Streaming
     @GET

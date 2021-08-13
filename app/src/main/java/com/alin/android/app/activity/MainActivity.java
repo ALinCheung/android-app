@@ -22,7 +22,7 @@ import com.alin.android.app.constant.AppType;
 import com.alin.android.app.fragment.BannerFragment;
 import com.alin.android.app.model.App;
 import com.alin.android.app.model.Banner;
-import com.alin.android.app.service.app.AppService;
+import com.alin.android.app.api.app.AppApi;
 import com.alin.android.core.constant.AppStatus;
 import com.alin.android.core.manager.AppStatusManager;
 import com.alin.android.core.manager.RetrofitManager;
@@ -60,9 +60,9 @@ public class MainActivity extends BaseAppActivity {
             }
         });
 
-        AppService appService = retrofit.create(AppService.class);
+        AppApi appApi = retrofit.create(AppApi.class);
         // 轮播图
-        appService.getBannerList().compose(RetrofitManager.<Result<List<Banner>>>ioMain())
+        appApi.getBannerList().compose(RetrofitManager.<Result<List<Banner>>>ioMain())
                 .subscribe(new BaseAppObserver<Result<List<Banner>>>(this) {
                     @Override
                     public void onAccept(Result<List<Banner>> result, String error) {
@@ -76,7 +76,7 @@ public class MainActivity extends BaseAppActivity {
                 });
 
         // 功能列表
-        appService.getAppList().compose(RetrofitManager.<Result<List<App>>>ioMain())
+        appApi.getAppList().compose(RetrofitManager.<Result<List<App>>>ioMain())
                 .subscribe(new BaseAppObserver<Result<List<App>>>(this, true) {
                     @Override
                     public void onAccept(Result<List<App>> result, String error) {

@@ -12,8 +12,8 @@ import com.alin.android.app.constant.Constant;
 import com.alin.android.app.constant.InstallType;
 import com.alin.android.core.constant.ReturnCode;
 import com.alin.android.app.model.AppVersion;
-import com.alin.android.app.service.app.AppService;
-import com.alin.android.app.service.download.DownloadService;
+import com.alin.android.app.api.app.AppApi;
+import com.alin.android.app.api.download.DownloadApi;
 import com.alin.android.core.base.BaseActivity;
 import com.alin.android.core.constant.AppStatus;
 import com.alin.android.core.listener.DownloadListener;
@@ -72,7 +72,7 @@ public abstract class BaseAppActivity extends BaseActivity {
                 final PackageInfo pkInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
                 Log.i(TAG, "APP当前版本: "+pkInfo.versionName);
                 // 远程版本
-                retrofit.create(AppService.class).getAppVersion()
+                retrofit.create(AppApi.class).getAppVersion()
                         .compose(RetrofitManager.<Result<AppVersion>>ioMain())
                         .subscribe(new BaseAppObserver<Result<AppVersion>>(this, false) {
                             @Override
@@ -151,7 +151,7 @@ public abstract class BaseAppActivity extends BaseActivity {
         Log.i(TAG,"下载apk, 版本升级");
         showLoadingDialog("加载中");
         // 进度条对话框
-        retrofit.create(DownloadService.class).byUrl(url)
+        retrofit.create(DownloadApi.class).byUrl(url)
                 .compose(RetrofitManager.<ResponseBody>ioMain())
                 .subscribe(new BaseAppObserver<ResponseBody>() {
                     @Override
