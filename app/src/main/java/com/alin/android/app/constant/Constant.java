@@ -8,6 +8,7 @@ public interface Constant {
 
     String KEY_API_URL = "api.url";
     String KEY_BROWSER_URL = "browser.url";
+    String KEY_APP_VERSION_CHECK = "app.version-check";
 
     String DEFAULT_URL = "http://localhost";
     String BROWSER_DEFAULT_URL = "https://www.baidu.com/";

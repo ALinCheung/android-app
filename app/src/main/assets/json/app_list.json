@@ -30,7 +30,7 @@
       "id": 5,
       "name": "版本检测",
       "type": "2",
-      "method": "appVersionCheck"
+      "method": "appVersionCheckDialog"
     }
   ]
 }
