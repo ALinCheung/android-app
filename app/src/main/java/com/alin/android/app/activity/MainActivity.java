@@ -3,6 +3,7 @@ package com.alin.android.app.activity;
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 import static com.alin.android.app.constant.Constant.KEY_APP_VERSION_CHECK;
+import static com.alin.android.app.constant.NotificationId.APP_VERSION_CHECK;
 import static com.mylhyl.circledialog.res.values.CircleColor.FOOTER_BUTTON_TEXT_NEGATIVE;
 
 import android.annotation.SuppressLint;
@@ -12,6 +13,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,12 +39,17 @@ import com.alin.android.app.common.BaseAppObserver;
 import com.alin.android.app.constant.AppType;
 import com.alin.android.app.fragment.BannerFragment;
 import com.alin.android.app.model.App;
+import com.alin.android.app.model.AppVersion;
 import com.alin.android.app.model.Banner;
 import com.alin.android.core.constant.AppStatus;
+import com.alin.android.core.constant.ReturnCode;
 import com.alin.android.core.manager.AppStatusManager;
 import com.alin.android.core.manager.RetrofitManager;
 import com.alin.android.core.model.Result;
+import com.alin.android.core.utils.NotificationUtil;
 import com.mylhyl.circledialog.CircleDialog;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -129,6 +136,8 @@ public class MainActivity extends BaseAppActivity {
         // 跳转检测应用版本
         if (appVersionCheck) {
             this.appVersionCheck();
+            // 关闭通知
+            notificationManager.cancel(APP_VERSION_CHECK);
         }
     }
 
@@ -197,31 +206,75 @@ public class MainActivity extends BaseAppActivity {
      * 检测应用版本通知
      */
     public void appVersionCheckNotification() {
-        // 设置通知跳转
-        Intent intent = new Intent(MainActivity.this, MainActivity.class);
-        intent.putExtra(KEY_APP_VERSION_CHECK, true);
-        PendingIntent pi = PendingIntent.getActivity(MainActivity.this, 0, intent, FLAG_UPDATE_CURRENT);
-        // 创建消息渠道
-        String channelId = "VersionCheck";
-        String channelName = "版本更新";
-        int importance = NotificationManager.IMPORTANCE_HIGH;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
-            notificationManager.createNotificationChannel(channel);
+        // 判断通知栏权限
+        if (!NotificationUtil.isNotificationEnabled(context)) {
+            new CircleDialog.Builder()
+                    .setWidth(0.7f)
+                    .setCanceledOnTouchOutside(false)
+                    .setCancelable(false)
+                    .setTitle("通知权限")
+                    .setText("尚未开启通知权限，点击去开启")
+                    .configText(params -> {
+                        params.gravity = Gravity.CENTER | Gravity.TOP;
+                    })
+                    .setNegative("取消", v -> true)
+                    .setPositive("确定", v -> {
+                        Log.i(TAG, "跳转应用通知权限设置页");
+                        NotificationUtil.redirectNotificationSetting(context);
+                        return true;
+                    })
+                    .show(getSupportFragmentManager());
+        } else {
+            // 设置通知跳转
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.putExtra(KEY_APP_VERSION_CHECK, true);
+            PendingIntent pi = PendingIntent.getActivity(context, 0, intent, FLAG_UPDATE_CURRENT);
+            // 创建消息渠道
+            String channelId = "VersionCheck";
+            String channelName = "版本更新";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+                notificationManager.createNotificationChannel(channel);
+            }
+            try {
+                // 当前app版本
+                final PackageInfo pkInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                retrofit.create(AppApi.class).getAppVersion()
+                        .compose(RetrofitManager.<Result<AppVersion>>ioMain())
+                        .subscribe(new BaseAppObserver<Result<AppVersion>>(this, false) {
+                            @Override
+                            public void onAccept(Result<AppVersion> o, String error) {
+                                if (StringUtils.isBlank(error) && ReturnCode.SUCCESS == o.getCode()) {
+                                    AppVersion version = o.getData();
+                                    // 判断新版本
+                                    if (!StringUtils.equalsIgnoreCase(pkInfo.versionName, version.getVersion()) && ".apk".equals(version.getApk_url().replaceAll(".*?(\\.apk)$", "$1"))) {
+                                        // 创建消息
+                                        Notification notification = new NotificationCompat.Builder(context, "default")
+                                                .setChannelId(channelId)  //关键！一定要set，不然就失效
+                                                .setContentTitle(channelName)  //设置标题
+                                                //.setContentText(version.getDescription()) //设置内容
+                                                .setStyle(new NotificationCompat.BigTextStyle().bigText(version.getDescription())) // 长文本, 富文本
+                                                .setWhen(System.currentTimeMillis())  //设置时间
+                                                .setSmallIcon(R.mipmap.ic_launcher)  //设置小图标  只能使用alpha图层的图片进行设置
+                                                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))   //设置大图标
+                                                .setContentIntent(pi)
+                                                .setAutoCancel(true)
+                                                .setPriority(NotificationCompat.PRIORITY_MAX)
+                                                .build();
+                                        notificationManager.notify(APP_VERSION_CHECK, notification);
+                                    } else {
+                                        showInfoDialog("已是最新版本");
+                                    }
+                                } else {
+                                    super.onAccept(o, error);
+                                }
+                            }
+                        });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        // 创建消息
-        Notification notification = new NotificationCompat.Builder(MainActivity.this, "defalut")
-                .setChannelId(channelId)  //关键！一定要set，不然就失效
-                .setContentTitle(channelName)  //设置标题
-                .setContentText(channelName) //设置内容
-                .setWhen(System.currentTimeMillis())  //设置时间
-                .setSmallIcon(R.mipmap.ic_launcher)  //设置小图标  只能使用alpha图层的图片进行设置
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))   //设置大图标
-                .setContentIntent(pi)
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .build();
-        notificationManager.notify(1, notification);
     }
 
     @Override
