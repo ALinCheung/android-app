@@ -9,6 +9,12 @@
       "clazz": "com.alin.android.app.activity.CalculatorActivity"
     },
     {
+      "id": 1,
+      "name": "聊天室",
+      "type": "1",
+      "clazz": "com.alin.android.app.activity.chat.ChatUserActivity"
+    },
+    {
       "id": 2,
       "name": "浏览器",
       "type": "1",

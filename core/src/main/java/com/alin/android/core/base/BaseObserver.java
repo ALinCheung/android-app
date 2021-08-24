@@ -1,6 +1,10 @@
 package com.alin.android.core.base;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
 import android.net.ParseException;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import com.google.gson.JsonParseException;
 import io.reactivex.observers.ResourceObserver;
@@ -41,6 +45,7 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
 
     @Override
     public void onError(Throwable e) {
+        Log.e(TAG, e.getMessage(), e);
         if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
             switch (httpException.code()) {

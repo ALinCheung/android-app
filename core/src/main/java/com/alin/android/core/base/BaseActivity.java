@@ -5,26 +5,30 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
+
+import com.alin.android.core.R;
 import com.alin.android.core.constant.AppStatus;
 import com.alin.android.core.manager.AppStatusManager;
-import com.alin.android.core.R;
 import com.jaeger.library.StatusBarUtil;
 import com.mylhyl.circledialog.CircleDialog;
-import me.leefeng.promptlibrary.PromptDialog;
+import com.mylhyl.circledialog.view.listener.OnButtonClickListener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
+import me.leefeng.promptlibrary.PromptDialog;
 
 /**
  * @description: 基础活动
  * @author: Create By ZhangWenLin
  * @create: 2021年7月9日12:52:03
  **/
-public abstract class BaseActivity extends AppCompatActivity implements BGASwipeBackHelper.Delegate, View.OnClickListener {
+public abstract class BaseActivity extends AppCompatActivity implements BaseNotification, BGASwipeBackHelper.Delegate, View.OnClickListener {
     protected BGASwipeBackHelper mSwipeBackHelper;
     protected PromptDialog promptDialog;
 
@@ -42,7 +46,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         // 设置状态栏
         //setStatusBar();
         // 设置启动页或者闪屏页
-        setStartPage();
+        //setStartPage();
     }
 
     /**
@@ -195,6 +199,20 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
                 .setWidth(0.7f)
                 .setText(msg)
                 .setPositive("确定", null)
+                .show(getSupportFragmentManager());
+    }
+
+    /**
+     * 信息提示框
+     */
+    public void showInfoDialog(String msg, OnButtonClickListener positiveListener, OnButtonClickListener negativeListener) {
+        new CircleDialog.Builder()
+                .setTitle("信息")
+                .configTitle(params -> params.isShowBottomDivider = true)
+                .setWidth(0.7f)
+                .setText(msg)
+                .setPositive("确定", positiveListener)
+                .setNegative("取消", negativeListener)
                 .show(getSupportFragmentManager());
     }
 

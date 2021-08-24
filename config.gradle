@@ -70,5 +70,7 @@ ext {
             AndroidPicker_FilePicker: 'com.gitee.li_yu_jiang.AndroidPicker:FilePicker:3.1.0',
             AndroidPicker_CalendarPicker: 'com.gitee.li_yu_jiang.AndroidPicker:CalendarPicker:3.1.0',
             AndroidPicker_ImagePicker: 'com.gitee.li_yu_jiang.AndroidPicker:ImagePicker:3.1.0',
+            // 即时通信websocket
+            Java_WebSocket: 'org.java-websocket:Java-WebSocket:1.5.1',
     ]
 }

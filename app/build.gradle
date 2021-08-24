@@ -32,6 +32,7 @@ android {
         main {
             // 资源目录
             res.srcDirs = [
+                "src/main/res/layout/chat",
                 "src/main/res/layout/picker",
                 "src/main/res/layout/rotate",
                 "src/main/res/layout/browser",
