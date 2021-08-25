@@ -1,9 +1,13 @@
 package com.alin.android.app.model;
 
-public class ChatUser {
-    Long uid;
+import java.io.Serializable;
+import java.util.Date;
 
+public class ChatUser implements Serializable {
+    Long uid;
     String name;
+    String lastChatMessage;
+    Date lastChatTime;
 
     public ChatUser() {
         super();
@@ -31,4 +35,19 @@ public class ChatUser {
         this.name = name;
     }
 
+    public String getLastChatMessage() {
+        return lastChatMessage;
+    }
+
+    public void setLastChatMessage(String lastChatMessage) {
+        this.lastChatMessage = lastChatMessage;
+    }
+
+    public Date getLastChatTime() {
+        return lastChatTime;
+    }
+
+    public void setLastChatTime(Date lastChatTime) {
+        this.lastChatTime = lastChatTime;
+    }
 }

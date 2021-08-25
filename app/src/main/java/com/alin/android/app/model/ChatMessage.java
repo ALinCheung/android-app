@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-public class Message {
+public class ChatMessage {
 
     //发送者name
     public String from;

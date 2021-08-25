@@ -5,8 +5,6 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -21,7 +19,6 @@ import com.alin.android.app.constant.Constant;
 import com.alin.android.app.model.ChatUser;
 import com.alin.android.app.service.ChatService;
 import com.alin.android.core.manager.RetrofitManager;
-import com.alin.android.core.utils.XmlUtil;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -67,12 +64,16 @@ public class ChatLoginActivity extends BaseAppActivity {
                             if (!o.contains("密码错误")) {
                                 // 保存用户信息
                                 ChatService.login(new ChatUser(3L, username), context);
+                                // 重启聊天服务
+                                Intent chatServiceIntent = new Intent(context, ChatService.class);
+                                stopService(chatServiceIntent);
+                                startService(chatServiceIntent);
                                 // 跳转聊天用户列表
                                 Intent intent = new Intent(context, ChatUserActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                             } else {
-                                showErrorDialog("登录失败");
+                                showInfoDialog("登录失败");
                             }
                         }
                     }

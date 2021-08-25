@@ -17,6 +17,8 @@ import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.view.listener.OnButtonClickListener;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -179,6 +181,29 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseNoti
         StringBuilder stringBuilder = new StringBuilder();
         try (BufferedReader bf = new BufferedReader(new InputStreamReader(
                 getAssets().open(fileName), "UTF-8") )) {
+            String line;
+            while ((line = bf.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
+    }
+
+    /**
+     * 获取文件字符串内容
+     * @param fileName 文件地址
+     * @return
+     */
+    protected String getFileString(String fileName) {
+        File file = new File(fileName);
+        if (!file.exists()) {
+            return null;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        try (BufferedReader bf = new BufferedReader(new InputStreamReader(
+                new FileInputStream(file), "UTF-8") )) {
             String line;
             while ((line = bf.readLine()) != null) {
                 stringBuilder.append(line);

@@ -144,9 +144,8 @@ public class MainActivity extends BaseAppActivity {
             notificationManager.cancel(APP_VERSION_CHECK);
         }
 
-        // 绑定聊天室服务
-        Intent chatServiceIntent = new Intent(context, ChatService.class);
-        startService(chatServiceIntent);
+        // 开启聊天室服务
+        startService(new Intent(context, ChatService.class));
     }
 
     /**

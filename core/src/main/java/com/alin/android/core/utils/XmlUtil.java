@@ -14,7 +14,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,6 +33,7 @@ public class XmlUtil {
     }
 
     private final static String namespace = null;// 命名空间
+    private final static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * 根据单个对象模型生成XML
@@ -170,7 +173,11 @@ public class XmlUtil {
                     final String fieldName = field.getName();
                     field.setAccessible(true);
                     serializer.startTag(namespace, fieldName);
-                    serializer.text(String.valueOf(field.get(obj)));
+                    if (field.get(obj) instanceof Date) {
+                        serializer.text(sdf.format(field.get(obj)));
+                    } else {
+                        serializer.text(String.valueOf(field.get(obj)));
+                    }
                     serializer.endTag(namespace, fieldName);
                     if (callback != null) {
                         callback.onProgress(Math.round((progress+1)/progressTotal));
@@ -201,7 +208,6 @@ public class XmlUtil {
      *
      * @param c       对象模型
      * @param xmlName xml文件名称
-     * @param T
      * @return
      */
     public static <T> T pullXmlSingle(Class<T> c, String xmlName) {
@@ -215,7 +221,6 @@ public class XmlUtil {
      * @param c       对象模型
      * @param xmlPath xml文件保存路径
      * @param xmlName xml文件名称
-     * @param T
      * @return
      */
     public static <T> T pullXmlSingle(Class<T> c, String xmlPath, String xmlName) {
@@ -267,6 +272,9 @@ public class XmlUtil {
                 file = new File(Environment.getExternalStorageDirectory(), xmlName);// SD卡路径
             } else {
                 file = new File(xmlPath, xmlName);
+            }
+            if (!file.exists()) {
+                return null;
             }
             final String className = c.getSimpleName();
             classesName = classesName == null ? className + "s" : classesName;
@@ -334,7 +342,7 @@ public class XmlUtil {
     private static <T> void setField(T t, Field[] fields, String nodeName, String nodeValue) throws Exception {
         for (Field field : fields) {
             final String fieldName = field.getName();
-            if (fieldName.equals(nodeName)) {
+            if (fieldName.equals(nodeName) && !"null".equals(nodeValue)) {
                 final Class<?> type = field.getType();
                 field.setAccessible(true);
                 if (type.equals(String.class)) {
@@ -349,6 +357,8 @@ public class XmlUtil {
                     field.set(t, Double.parseDouble(nodeValue));
                 } else if (type.equals(float.class) || type.equals(Float.class)) {
                     field.set(t, Float.parseFloat(nodeValue));
+                } else if (type.equals(Date.class)) {
+                    field.set(t, sdf.parse(nodeValue));
                 }
             }
         }
