@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,12 +16,11 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.alibaba.fastjson.JSONObject;
 import com.alin.android.app.R;
+import com.alin.android.app.activity.MainActivity;
 import com.alin.android.app.common.BaseAppActivity;
 import com.alin.android.app.constant.Action;
 import com.alin.android.app.constant.Constant;
-import com.alin.android.app.model.ChatMessage;
 import com.alin.android.app.model.ChatUser;
 import com.alin.android.app.service.ChatService;
 import com.alin.android.core.base.BaseCoreAdapter;
@@ -64,9 +64,9 @@ public class ChatUserActivity extends BaseAppActivity {
         }
 
         // 获取当前聊天用户列表
-        initUsers();
+        initData();
         // 初始化界面
-        initUsersView();
+        initView();
 
         // 获取当前登录用户
         /*chatRetrofit.create(ChatApi.class).onlineUsers(user.getName())
@@ -97,18 +97,24 @@ public class ChatUserActivity extends BaseAppActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
+
     /**
      * 聊天广播接收器
      */
     private class ChatMessageReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String message = intent.getStringExtra("message");
-            Log.e(TAG, "广播接收:" + message);
             // 获取当前聊天用户列表
-            initUsers();
+            initData();
             // 初始化界面
-            initUsersView();
+            initView();
         }
     }
 
@@ -139,7 +145,7 @@ public class ChatUserActivity extends BaseAppActivity {
     /**
      * 初始化用户数据
      */
-    private void initUsers() {
+    private void initData() {
         chatUsers = ChatService.getChatUserList(user.getName(), context);
         if (chatUsers == null) {
             chatUsers = new ArrayList<>();
@@ -163,7 +169,7 @@ public class ChatUserActivity extends BaseAppActivity {
     /**
      * 初始化用户列表界面
      */
-    private void initUsersView() {
+    private void initView() {
         Log.d(TAG, chatUsers.toString());
         userListView.setAdapter(new BaseCoreAdapter<ChatUser>(chatUsers, R.layout.item_chat_user, context) {
             @Override
@@ -178,7 +184,8 @@ public class ChatUserActivity extends BaseAppActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textView = (TextView) view.findViewById(R.id.chat_user_name);
                 Intent intent = new Intent(context, ChatDetailActivity.class);
-                intent.putExtra(Constant.KEY_CHAT_USER, textView.getText());
+                intent.putExtra(Constant.KEY_CHAT_USER_FROM, user.getName());
+                intent.putExtra(Constant.KEY_CHAT_USER_TO, textView.getText());
                 startActivity(intent);
             }
         });

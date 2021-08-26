@@ -9,7 +9,8 @@ public interface Constant {
     String KEY_API_URL = "api.url";
     String KEY_CHAT_API_URL = "chat.api.url";
     String KEY_CHAT_WS_URL = "chat.ws.url";
-    String KEY_CHAT_USER = "chat.user";
+    String KEY_CHAT_USER_FROM = "chat.user.from";
+    String KEY_CHAT_USER_TO = "chat.user.to";
     String KEY_BROWSER_URL = "browser.url";
     String KEY_APP_VERSION_CHECK = "app.version-check";
 

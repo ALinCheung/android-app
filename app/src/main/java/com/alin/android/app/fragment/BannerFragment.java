@@ -119,7 +119,13 @@ public class BannerFragment extends BaseFragment implements ViewPager.OnPageChan
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                bannerViewPager.setCurrentItem(bannerViewPager.getCurrentItem() + 1);
+                                int index;
+                                if (bannerViewPager == null) {
+                                    index = 0;
+                                } else {
+                                    index = bannerViewPager.getCurrentItem();
+                                }
+                                bannerViewPager.setCurrentItem(index + 1);
                             }
                         });
                     }

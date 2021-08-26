@@ -19,6 +19,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alin.android.app.activity.chat.ChatUserActivity;
 import com.alin.android.app.common.BaseAppService;
 import com.alin.android.app.constant.Action;
@@ -136,28 +137,9 @@ public class ChatService extends BaseAppService implements BaseNotification {
                 ChatMessage chatMessage = JSON.parseObject(messageString, ChatMessage.class);
                 if (StringUtils.isNotBlank(chatMessage.getFrom())) {
                     // 存储用户
-                    ChatUser chatUser = new ChatUser();
-                    chatUser.setName(chatMessage.getFrom());
-                    chatUser.setLastChatMessage(chatMessage.getText());
-                    chatUser.setLastChatTime(chatMessage.getDate());
-                    List<ChatUser> chatUserList = getChatUserList(username, context);
-                    if (chatUserList != null && !chatUserList.isEmpty()) {
-                        List<String> chatUsernames = chatUserList.stream().map(ChatUser::getName).collect(Collectors.toList());
-                        if (chatUsernames.contains(chatMessage.getFrom())) {
-                            chatUserList.removeIf(user -> chatMessage.getFrom().equals(user.getName()));
-                        }
-                    } else {
-                        chatUserList = new ArrayList<>();
-                    }
-                    chatUserList.add(chatUser);
-                    setChatUserList(username, chatUserList, context);
+                    saveChatUser(username, chatMessage.getFrom(), chatMessage);
                     // 存储消息
-                    List<ChatMessage> chatMessages = getChatMessage(username, chatMessage.getFrom(), context);
-                    if (chatMessages == null) {
-                        chatMessages = new ArrayList<>();
-                    }
-                    chatMessages.add(chatMessage);
-                    setChatMessage(username, chatMessage.getFrom(), chatMessages, context);
+                    saveChatMessage(username, chatMessage.getFrom(), chatMessage);
                     // 发送通知
                     sendNotification(chatMessage);
                     // 发送广播
@@ -221,12 +203,18 @@ public class ChatService extends BaseAppService implements BaseNotification {
 
     /**
      * 发送消息
-     * @param msg
+     * @param chatMessage
      */
-    public void sendMsg(String msg) {
+    public void sendMessage(ChatMessage chatMessage) {
         if (null != client) {
-            Log.e(TAG, "发送的消息：" + msg);
-            client.send(msg);
+            String message = JSONObject.toJSONString(chatMessage);
+            Log.e(TAG, "发送的消息：" + message);
+            // 存储用户
+            saveChatUser(chatMessage.getFrom(), chatMessage.getTo(), chatMessage);
+            // 储存消息
+            saveChatMessage(chatMessage.getFrom(), chatMessage.getTo(), chatMessage);
+            // 发送消息
+            client.send(message);
         }
     }
 
@@ -297,17 +285,77 @@ public class ChatService extends BaseAppService implements BaseNotification {
         return file.delete();
     }
 
+    /**
+     * 保存聊天用户
+     * @param username
+     * @param chatUsername
+     * @param chatMessage
+     */
+    private void saveChatUser(String username, String chatUsername, ChatMessage chatMessage) {
+        ChatUser chatUser = new ChatUser();
+        chatUser.setName(chatUsername);
+        chatUser.setLastChatMessage(chatMessage.getText());
+        chatUser.setLastChatTime(chatMessage.getDate());
+        List<ChatUser> chatUserList = getChatUserList(username, context);
+        if (chatUserList != null && !chatUserList.isEmpty()) {
+            List<String> chatUsernames = chatUserList.stream().map(ChatUser::getName).collect(Collectors.toList());
+            if (chatUsernames.contains(chatUsername)) {
+                chatUserList.removeIf(user -> chatUsername.equals(user.getName()));
+            }
+        } else {
+            chatUserList = new ArrayList<>();
+        }
+        chatUserList.add(chatUser);
+        setChatUserList(username, chatUserList, context);
+    }
+
+    /**
+     * 保存聊天信息
+     * @param username
+     * @param chatUsername
+     * @param chatMessage
+     */
+    private void saveChatMessage(String username, String chatUsername, ChatMessage chatMessage) {
+        List<ChatMessage> chatMessages = getChatMessage(username, chatUsername, context);
+        if (chatMessages == null) {
+            chatMessages = new ArrayList<>();
+        }
+        chatMessages.add(chatMessage);
+        setChatMessage(username, chatUsername, chatMessages, context);
+    }
+
+    /**
+     * 设置聊天用户列表
+     * @param username
+     * @param chatUsers
+     * @param context
+     * @return
+     */
     public static boolean setChatUserList(String username, List<ChatUser> chatUsers, Context context) {
         String filePath = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getPath() + "/" + username;
         FileUtil.mkdirs(filePath);
         return XmlUtil.parse(chatUsers, filePath, Constant.XML_CHAT_USER);
     }
 
+    /**
+     * 获取聊天用户列表
+     * @param username
+     * @param context
+     * @return
+     */
     public static List<ChatUser> getChatUserList(String username, Context context) {
         String filePath = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getPath() + "/" + username;
         return XmlUtil.pullXml(ChatUser.class, filePath, Constant.XML_CHAT_USER);
     }
 
+    /**
+     * 设置聊天信息
+     * @param username
+     * @param chatUsername
+     * @param message
+     * @param context
+     * @return
+     */
     public static boolean setChatMessage(String username, String chatUsername, List<ChatMessage> message, Context context) {
         String filePath = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getPath() + "/" + username + "/" + chatUsername;
         FileUtil.mkdirs(filePath);
@@ -315,6 +363,13 @@ public class ChatService extends BaseAppService implements BaseNotification {
         return XmlUtil.parse(message, filePath, fileName);
     }
 
+    /**
+     * 获取聊天信息
+     * @param username
+     * @param chatUsername
+     * @param context
+     * @return
+     */
     public static List<ChatMessage> getChatMessage(String username, String chatUsername, Context context) {
         String filePath = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getPath() + "/" + username + "/" + chatUsername;
         FileUtil.mkdirs(filePath);

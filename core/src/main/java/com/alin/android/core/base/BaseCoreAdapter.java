@@ -35,6 +35,10 @@ public abstract class BaseCoreAdapter<T> extends BaseAdapter {
     public BaseCoreAdapter() {
     }
 
+    public BaseCoreAdapter(List<T> mData) {
+        this.mData = mData;
+    }
+
     public BaseCoreAdapter(List<T> mData, int mLayoutRes) {
         this.mData = mData;
         this.mLayoutRes = mLayoutRes;

@@ -47,6 +47,7 @@ import com.alin.android.core.constant.ReturnCode;
 import com.alin.android.core.manager.AppStatusManager;
 import com.alin.android.core.manager.RetrofitManager;
 import com.alin.android.core.model.Result;
+import com.alin.android.core.utils.OsUtil;
 import com.mylhyl.circledialog.CircleDialog;
 
 import org.apache.commons.lang3.StringUtils;
@@ -145,7 +146,9 @@ public class MainActivity extends BaseAppActivity {
         }
 
         // 开启聊天室服务
-        startService(new Intent(context, ChatService.class));
+        if (!OsUtil.isServiceRunning(ChatService.class.getName(), context)) {
+            startService(new Intent(context, ChatService.class));
+        }
     }
 
     /**
