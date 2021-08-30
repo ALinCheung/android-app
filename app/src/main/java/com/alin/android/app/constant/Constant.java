@@ -21,4 +21,8 @@ public interface Constant {
 
     String DEFAULT_URL = "http://localhost";
     String BROWSER_DEFAULT_URL = "https://www.baidu.com/";
+
+    String STRING_CHAT = "聊天";
+    String STRING_CHAT_LOADING = "收取中……";
+    String STRING_CHAT_ERROR = "未连接";
 }

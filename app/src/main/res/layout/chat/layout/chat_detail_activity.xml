@@ -7,56 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/jmui_menu_title_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_bar_height"
-        android:background="@color/jmui_jpush_blue">
-
-        <ImageButton
-            android:id="@+id/iv_return"
-            android:layout_width="@dimen/title_bar_height"
-            android:layout_height="match_parent"
-            android:onClick="onBackUser"
-            android:background="@drawable/jmui_back_btn_bg"
-            android:src="@drawable/back" />
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_return"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/chat_detail_user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxWidth="190dp"
-                android:singleLine="true"
-                android:text="服务器"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/jmui_group_num_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp" />
-
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/jmui_right_btn"
-            android:layout_width="@dimen/title_bar_height"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/jmui_back_btn_bg"
-            android:src="@drawable/jmui_chat_detail" />
-    </RelativeLayout>
+    <include layout="@layout/item_chat_header"/>
 
     <ListView
         android:id="@+id/chat_message_list"

@@ -5,4 +5,6 @@ package com.alin.android.app.constant;
  */
 public interface Action {
     String CHAT_MESSAGE = "com.alin.android.app.chat_message";
+    String CHAT_MESSAGE_LOADING = "com.alin.android.app.chat_message_loading";
+    String CHAT_MESSAGE_ERROR = "com.alin.android.app.chat_message_error";
 }

@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
 import com.alin.android.app.R;
+import com.alin.android.app.activity.MainActivity;
 import com.alin.android.app.api.chat.ChatApi;
 import com.alin.android.app.common.BaseAppActivity;
 import com.alin.android.app.common.BaseAppObserver;
@@ -24,12 +26,15 @@ import org.apache.commons.lang3.StringUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Retrofit;
 
 public class ChatLoginActivity extends BaseAppActivity {
 
     private Context context;
     private Retrofit chatRetrofit;
+    @BindView(R.id.chat_header_title)
+    public TextView chatHeaderTitleTv;
     @BindView(R.id.chat_username)
     public EditText usernameEditText;
     @BindView(R.id.chat_password)
@@ -43,6 +48,18 @@ public class ChatLoginActivity extends BaseAppActivity {
 
         context = ChatLoginActivity.this;
         chatRetrofit = RetrofitManager.getInstance(context, getEnvString(Constant.KEY_CHAT_API_URL));
+    }
+
+    /**
+     * 返回上层页
+     * @param v
+     */
+    @OnClick(R.id.chat_header_return)
+    public void onBackPage(View v) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     /**

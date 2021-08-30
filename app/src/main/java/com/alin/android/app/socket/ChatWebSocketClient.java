@@ -10,6 +10,8 @@ import java.net.URI;
 
 public class ChatWebSocketClient extends WebSocketClient {
 
+    private static final String TAG = "ChatWebSocketClient";
+
     public ChatWebSocketClient(URI serverUri) {
         // Draft_6455()代表使用的协议版本
         super(serverUri, new Draft_6455());
@@ -17,22 +19,22 @@ public class ChatWebSocketClient extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshake) {
-        Log.e("ChatWebSocketClient", "onOpen()");
+        Log.e(TAG, "onOpen()");
     }
 
     @Override
     public void onMessage(String message) {
-        Log.e("ChatWebSocketClient", "onMessage()");
+        Log.e(TAG, "onMessage()");
     }
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        Log.e("ChatWebSocketClient", "onClose()");
+        Log.e(TAG, "onClose()");
     }
 
     @Override
     public void onError(Exception ex) {
         ex.printStackTrace();
-        Log.e("ChatWebSocketClient", "onError()");
+        Log.e(TAG, "onError()");
     }
 }

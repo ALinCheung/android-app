@@ -121,11 +121,13 @@ public class ChatService extends BaseAppService implements BaseNotification {
         return mBinder;
     }
 
+
+
     /**
      * 初始化WS
      */
     private void initChatWebSocket() {
-        Log.d("ChatService", "初始化WebSocket客户端");
+        Log.d(TAG, "初始化WebSocket客户端");
         user = isLogin(this);
         String username = user==null?"Guest":user.getName();
         URI uri = URI.create(getEnvString(Constant.KEY_CHAT_WS_URL)+username);
@@ -133,7 +135,7 @@ public class ChatService extends BaseAppService implements BaseNotification {
             @Override
             public void onMessage(String messageString) {
                 // message就是接收到的消息
-                Log.d("ChatService", messageString);
+                Log.d(TAG, messageString);
                 ChatMessage chatMessage = JSON.parseObject(messageString, ChatMessage.class);
                 if (StringUtils.isNotBlank(chatMessage.getFrom())) {
                     // 存储用户
@@ -147,6 +149,12 @@ public class ChatService extends BaseAppService implements BaseNotification {
                     broadcastIntent.putExtra("message", messageString);
                     sendBroadcast(broadcastIntent);
                 }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                e.printStackTrace();
+                reconnectWs();
             }
         };
         connect();
@@ -224,7 +232,7 @@ public class ChatService extends BaseAppService implements BaseNotification {
     private Runnable heartBeatRunnable = new Runnable() {
         @Override
         public void run() {
-            Log.e(TAG, "心跳包检测websocket连接状态");
+            Log.d(TAG, "心跳包检测websocket连接状态");
             if (client != null) {
                 if (client.isClosed()) {
                     reconnectWs();
@@ -247,11 +255,25 @@ public class ChatService extends BaseAppService implements BaseNotification {
         new Thread() {
             @Override
             public void run() {
+                // 发送重连广播
+                Intent broadcastIntent = new Intent(Action.CHAT_MESSAGE_LOADING);
+                sendBroadcast(broadcastIntent);
+                boolean reconnectState;
                 try {
                     Log.e(TAG, "开启重连");
-                    client.reconnectBlocking();
-                } catch (InterruptedException e) {
+                    reconnectState = client.reconnectBlocking();
+                } catch (Exception e) {
                     e.printStackTrace();
+                    reconnectState = false;
+                }
+                Log.d(TAG, "重连状态为:"+reconnectState);
+                if (reconnectState) {
+                    Log.d(TAG, "重连成功");
+                } else {
+                    Log.d(TAG, "重连失败");
+                    // 发送重连失败广播
+                    broadcastIntent = new Intent(Action.CHAT_MESSAGE_ERROR);
+                    sendBroadcast(broadcastIntent);
                 }
             }
         }.start();

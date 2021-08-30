@@ -47,8 +47,8 @@ public class ChatDetailActivity extends BaseAppActivity {
     private List<ChatMessage> chatMessages;
     private ChatService chatService;
     private ChatMessageReceiver chatMessageReceiver;
-    @BindView(R.id.chat_detail_user_name)
-    public TextView usernameTv;
+    @BindView(R.id.chat_header_title)
+    public TextView chatHeaderTitleTv;
     @BindView(R.id.chat_message_list)
     public ListView chatMessageListView;
     @BindView(R.id.chat_content_et)
@@ -123,10 +123,11 @@ public class ChatDetailActivity extends BaseAppActivity {
     }
 
     /**
-     * 返回用户列表页
+     * 返回上层页
      * @param v
      */
-    public void onBackUser(View v) {
+    @OnClick(R.id.chat_header_return)
+    public void onBackPage(View v) {
         Intent intent = new Intent(context, ChatUserActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -140,7 +141,7 @@ public class ChatDetailActivity extends BaseAppActivity {
     }
 
     public void initView() {
-        usernameTv.setText(chatUsername);
+        chatHeaderTitleTv.setText(chatUsername);
         // 初始化对话
         chatMessageListView.setAdapter(new ChatDetailAdapter(currentUsername, chatMessages));
         chatMessageListView.setSelection(chatMessages.size());

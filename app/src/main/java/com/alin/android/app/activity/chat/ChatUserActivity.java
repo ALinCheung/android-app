@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Retrofit;
 
 public class ChatUserActivity extends BaseAppActivity {
@@ -43,6 +44,8 @@ public class ChatUserActivity extends BaseAppActivity {
     private ChatMessageReceiver chatMessageReceiver;
     private ChatUser user;
     private List<ChatUser> chatUsers;
+    @BindView(R.id.chat_header_title)
+    public TextView chatHeaderTitleTv;
     @BindView(R.id.chat_user_list)
     public ListView userListView;
 
@@ -66,7 +69,7 @@ public class ChatUserActivity extends BaseAppActivity {
         // 获取当前聊天用户列表
         initData();
         // 初始化界面
-        initView();
+        initView(getIntent());
 
         // 获取当前登录用户
         /*chatRetrofit.create(ChatApi.class).onlineUsers(user.getName())
@@ -85,7 +88,10 @@ public class ChatUserActivity extends BaseAppActivity {
 
         // 动态注册广播接收器
         chatMessageReceiver = new ChatMessageReceiver();
-        IntentFilter filter = new IntentFilter(Action.CHAT_MESSAGE);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Action.CHAT_MESSAGE);
+        filter.addAction(Action.CHAT_MESSAGE_LOADING);
+        filter.addAction(Action.CHAT_MESSAGE_ERROR);
         registerReceiver(chatMessageReceiver, filter);
     }
 
@@ -97,6 +103,10 @@ public class ChatUserActivity extends BaseAppActivity {
         }
     }
 
+    /**
+     * 返回上层页
+     */
+    @OnClick(R.id.chat_header_return)
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);
@@ -114,7 +124,7 @@ public class ChatUserActivity extends BaseAppActivity {
             // 获取当前聊天用户列表
             initData();
             // 初始化界面
-            initView();
+            initView(intent);
         }
     }
 
@@ -169,8 +179,21 @@ public class ChatUserActivity extends BaseAppActivity {
     /**
      * 初始化用户列表界面
      */
-    private void initView() {
-        Log.d(TAG, chatUsers.toString());
+    private void initView(Intent intent) {
+        // 设置页面标题
+        String action = intent.getAction() == null ? Action.CHAT_MESSAGE : intent.getAction();
+        switch (action) {
+            case Action.CHAT_MESSAGE_LOADING:
+                chatHeaderTitleTv.setText(Constant.STRING_CHAT_LOADING);
+                break;
+            case Action.CHAT_MESSAGE_ERROR:
+                chatHeaderTitleTv.setText(Constant.STRING_CHAT_ERROR);
+                break;
+            default:
+                chatHeaderTitleTv.setText(Constant.STRING_CHAT);
+                break;
+        }
+        // 设置用户列表
         userListView.setAdapter(new BaseCoreAdapter<ChatUser>(chatUsers, R.layout.item_chat_user, context) {
             @Override
             public void bindView(ViewHolder holder, ChatUser chatUser) {
