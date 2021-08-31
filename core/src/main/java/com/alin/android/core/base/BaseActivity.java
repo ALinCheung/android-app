@@ -52,7 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseNoti
         // 设置状态栏
         //setStatusBar();
         // 设置启动页或者闪屏页
-        //setStartPage();
+        setStartPage();
     }
 
     /**
@@ -181,7 +181,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseNoti
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
             boolean hideInputResult = isShouldHideInput(v, ev);
-            Log.v("hideInputResult", "zzz-->>" + hideInputResult);
+            Log.v("hideInputResult", "是否隐藏输入-->>" + hideInputResult);
             if (hideInputResult) {
                 v.clearFocus();
                 InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);

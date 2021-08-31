@@ -59,7 +59,7 @@ public class BannerFragment extends BaseFragment implements ViewPager.OnPageChan
     }
 
     @Override
-    protected void initData() {
+    protected void initContent() {
         unbinder = ButterKnife.bind(this, view);
         handler = new BannerFragmentHandle(this);
         // 初始化viewPager

@@ -1,53 +1,39 @@
 package com.alin.android.app.activity.chat;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
-
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.alin.android.app.R;
 import com.alin.android.app.activity.MainActivity;
 import com.alin.android.app.common.BaseAppActivity;
-import com.alin.android.app.constant.Action;
 import com.alin.android.app.constant.Constant;
+import com.alin.android.app.fragment.chat.ChatBookFragment;
+import com.alin.android.app.fragment.chat.ChatFragment;
+import com.alin.android.app.fragment.chat.ChatUserFragment;
 import com.alin.android.app.model.ChatUser;
 import com.alin.android.app.service.ChatService;
-import com.alin.android.core.base.BaseCoreAdapter;
 import com.alin.android.core.manager.RetrofitManager;
-import com.alin.android.core.utils.DateUtil;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Retrofit;
 
+/**
+ * 聊天功能
+ */
 public class ChatUserActivity extends BaseAppActivity {
 
     private Context context;
+    private ChatFragment chatFragment;
+    private ChatBookFragment chatBookFragment;
+    private ChatUserFragment chatUserFragment;
     private Retrofit chatRetrofit;
-    private ChatMessageReceiver chatMessageReceiver;
     private ChatUser user;
-    private List<ChatUser> chatUsers;
-    @BindView(R.id.chat_header_title)
-    public TextView chatHeaderTitleTv;
-    @BindView(R.id.chat_user_list)
-    public ListView userListView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,47 +52,31 @@ public class ChatUserActivity extends BaseAppActivity {
             return;
         }
 
-        // 获取当前聊天用户列表
-        initData();
         // 初始化界面
-        initView(getIntent());
-
-        // 获取当前登录用户
-        /*chatRetrofit.create(ChatApi.class).onlineUsers(user.getName())
-                .compose(RetrofitManager.<Set<String>>ioMain())
-                .subscribe(new BaseAppObserver<Set<String>>(this, true){
-                    @Override
-                    public void onAccept(Set<String> o, String error) {
-                        super.onAccept(o, error);
-                        if (StringUtils.isBlank(error)) {
-                            for (String username : o) {
-
-                            }
-                        }
-                    }
-                });*/
-
-        // 动态注册广播接收器
-        chatMessageReceiver = new ChatMessageReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Action.CHAT_MESSAGE);
-        filter.addAction(Action.CHAT_MESSAGE_LOADING);
-        filter.addAction(Action.CHAT_MESSAGE_ERROR);
-        registerReceiver(chatMessageReceiver, filter);
+        initChatFragment();
     }
 
+    @OnClick({R.id.chat_menu_chat, R.id.chat_menu_book, R.id.chat_menu_user})
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (chatMessageReceiver != null) {
-            unregisterReceiver(chatMessageReceiver);
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.chat_menu_chat:
+                initChatFragment();
+                break;
+            case R.id.chat_menu_book:
+                initChatBookFragment();
+                break;
+            case R.id.chat_menu_user:
+                initChatUserFragment();
+                break;
+            default:
+                break;
         }
     }
 
     /**
      * 返回上层页
      */
-    @OnClick(R.id.chat_header_return)
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);
@@ -116,30 +86,61 @@ public class ChatUserActivity extends BaseAppActivity {
     }
 
     /**
-     * 聊天广播接收器
+     * 初始化聊天
      */
-    private class ChatMessageReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // 获取当前聊天用户列表
-            initData();
-            // 初始化界面
-            initView(intent);
+    private void initChatFragment() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (chatFragment == null) {
+            chatFragment = new ChatFragment(context, getIntent(), user);
+            transaction.add(R.id.chat_fragment, chatFragment);
         }
+        hideAllFragment(transaction);
+        transaction.show(chatFragment);
+        transaction.commit();
     }
 
     /**
-     * 登出
-     * @param v
+     * 初始化通讯录
      */
-    public void onLogoutChat(View v) {
-        ChatService.logout(context);
-        // 重启聊天服务
-        Intent chatServiceIntent = new Intent(context, ChatService.class);
-        stopService(chatServiceIntent);
-        startService(chatServiceIntent);
-        // 跳转登录页
-        toLoginPage();
+    private void initChatBookFragment() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (chatBookFragment == null) {
+            chatBookFragment = new ChatBookFragment(context, chatRetrofit, user);
+            transaction.add(R.id.chat_fragment, chatBookFragment);
+        }
+        hideAllFragment(transaction);
+        transaction.show(chatBookFragment);
+        transaction.commit();
+    }
+
+    /**
+     * 初始化用户
+     */
+    private void initChatUserFragment() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (chatUserFragment == null) {
+            chatUserFragment = new ChatUserFragment(context);
+            transaction.add(R.id.chat_fragment, chatUserFragment);
+        }
+        hideAllFragment(transaction);
+        transaction.show(chatUserFragment);
+        transaction.commit();
+    }
+
+    /**
+     * 隐藏所有Fragment
+     * @param transaction
+     */
+    private void hideAllFragment(FragmentTransaction transaction) {
+        if (chatFragment != null) {
+            transaction.hide(chatFragment);
+        }
+        if (chatBookFragment != null) {
+            transaction.hide(chatBookFragment);
+        }
+        if (chatUserFragment != null) {
+            transaction.hide(chatUserFragment);
+        }
     }
 
     /**
@@ -150,67 +151,5 @@ public class ChatUserActivity extends BaseAppActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
-    }
-
-    /**
-     * 初始化用户数据
-     */
-    private void initData() {
-        chatUsers = ChatService.getChatUserList(user.getName(), context);
-        if (chatUsers == null) {
-            chatUsers = new ArrayList<>();
-        }
-        sortChatUsers();
-    }
-
-    /**
-     * 用户列表排序
-     */
-    private void sortChatUsers() {
-        chatUsers = chatUsers.stream().sorted(new Comparator<ChatUser>() {
-            @Override
-            public int compare(ChatUser o1, ChatUser o2) {
-                // 按最新消息时间排序
-                return Long.compare(o2.getLastChatTime().getTime(), o1.getLastChatTime().getTime());
-            }
-        }).collect(Collectors.toList());
-    }
-
-    /**
-     * 初始化用户列表界面
-     */
-    private void initView(Intent intent) {
-        // 设置页面标题
-        String action = intent.getAction() == null ? Action.CHAT_MESSAGE : intent.getAction();
-        switch (action) {
-            case Action.CHAT_MESSAGE_LOADING:
-                chatHeaderTitleTv.setText(Constant.STRING_CHAT_LOADING);
-                break;
-            case Action.CHAT_MESSAGE_ERROR:
-                chatHeaderTitleTv.setText(Constant.STRING_CHAT_ERROR);
-                break;
-            default:
-                chatHeaderTitleTv.setText(Constant.STRING_CHAT);
-                break;
-        }
-        // 设置用户列表
-        userListView.setAdapter(new BaseCoreAdapter<ChatUser>(chatUsers, R.layout.item_chat_user, context) {
-            @Override
-            public void bindView(ViewHolder holder, ChatUser chatUser) {
-                holder.setText(R.id.chat_user_name, chatUser.getName());
-                holder.setText(R.id.chat_last_time, DateUtil.format(chatUser.getLastChatTime(), DateUtil.DATEFORMATSECOND));
-                holder.setText(R.id.chat_last_message, chatUser.getLastChatMessage());
-            }
-        });
-        userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView textView = (TextView) view.findViewById(R.id.chat_user_name);
-                Intent intent = new Intent(context, ChatDetailActivity.class);
-                intent.putExtra(Constant.KEY_CHAT_USER_FROM, user.getName());
-                intent.putExtra(Constant.KEY_CHAT_USER_TO, textView.getText());
-                startActivity(intent);
-            }
-        });
     }
 }

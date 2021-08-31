@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -47,6 +48,8 @@ public class ChatDetailActivity extends BaseAppActivity {
     private List<ChatMessage> chatMessages;
     private ChatService chatService;
     private ChatMessageReceiver chatMessageReceiver;
+    @BindView(R.id.chat_header_return)
+    public ImageButton chatHeaderReturnBtn;
     @BindView(R.id.chat_header_title)
     public TextView chatHeaderTitleTv;
     @BindView(R.id.chat_message_list)
@@ -141,6 +144,7 @@ public class ChatDetailActivity extends BaseAppActivity {
     }
 
     public void initView() {
+        chatHeaderReturnBtn.setVisibility(View.VISIBLE);
         chatHeaderTitleTv.setText(chatUsername);
         // 初始化对话
         chatMessageListView.setAdapter(new ChatDetailAdapter(currentUsername, chatMessages));

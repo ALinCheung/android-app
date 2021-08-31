@@ -4,6 +4,9 @@
     <string name="login">登录: </string>
     <string name="logout">退出登录</string>
 
+    <string name="chat_menu_chat">聊天</string>
+    <string name="chat_menu_book">通讯录</string>
+    <string name="chat_menu_user">用户</string>
 
     <string name="user_name">用户名</string>
     <string name="last_time">2000-01-01</string>

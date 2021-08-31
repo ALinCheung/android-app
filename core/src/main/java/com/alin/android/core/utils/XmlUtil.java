@@ -137,14 +137,17 @@ public class XmlUtil {
         if (callback != null) {
             callback.onBefore(list);
         }
-        if (list == null || list.size() <= 0) {
-            return false;
-        }
         File file = null;
         if (xmlPath == null || "".equals(xmlPath)) {
             file = new File(Environment.getExternalStorageDirectory(), xmlName);// SD卡路径
         } else {
             file = new File(xmlPath, xmlName);
+        }
+        if (list == null || list.size() <= 0) {
+            if (file.exists()) {
+                file.delete();
+            }
+            return false;
         }
         final String className = list.get(0).getClass().getSimpleName();
         classesName = classesName == null ? className + "s" : classesName;
@@ -320,7 +323,9 @@ public class XmlUtil {
             e.printStackTrace();
         } finally {
             try {
-                fis.close();
+                if (fis != null) {
+                    fis.close();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

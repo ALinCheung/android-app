@@ -9,6 +9,7 @@
         android:id="@+id/chat_header_return"
         android:layout_width="@dimen/title_bar_height"
         android:layout_height="match_parent"
+        android:visibility="invisible"
         android:background="@drawable/jmui_back_btn_bg"
         android:src="@drawable/back" />
 

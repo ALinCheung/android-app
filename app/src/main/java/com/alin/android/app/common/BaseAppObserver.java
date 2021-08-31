@@ -27,15 +27,17 @@ public class BaseAppObserver<T> extends BaseObserver<T> {
 
     @Override
     public void onAccept(T o, String error) {
-        if (StringUtils.isNotBlank(error)) {
-            activity.showErrorDialog(error);
-            return;
-        }
-        if (o instanceof Result) {
-            Result result = (Result) o;
-            if (ReturnCode.FAIL == result.getCode()) {
-                activity.showErrorDialog(result.getMessage());
+        if (activity != null) {
+            if (StringUtils.isNotBlank(error)) {
+                activity.showErrorDialog(error);
                 return;
+            }
+            if (o instanceof Result) {
+                Result result = (Result) o;
+                if (ReturnCode.FAIL == result.getCode()) {
+                    activity.showErrorDialog(result.getMessage());
+                    return;
+                }
             }
         }
     }

@@ -36,7 +36,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(getLayoutId(), container, false);
-        this.initData();
+        this.initContent();
         return view;
     }
 
@@ -48,7 +48,7 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 数据初始化操作
      */
-    protected abstract void initData();
+    protected abstract void initContent();
 
 
     @Override

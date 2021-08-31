@@ -2,7 +2,6 @@ package com.alin.android.app.service;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import static androidx.constraintlayout.widget.Constraints.TAG;
-
 import static com.alin.android.app.constant.NotificationId.CHAT_MESSAGE;
 
 import android.annotation.SuppressLint;
@@ -24,8 +23,8 @@ import com.alin.android.app.activity.chat.ChatUserActivity;
 import com.alin.android.app.common.BaseAppService;
 import com.alin.android.app.constant.Action;
 import com.alin.android.app.constant.Constant;
-import com.alin.android.app.model.ChatUser;
 import com.alin.android.app.model.ChatMessage;
+import com.alin.android.app.model.ChatUser;
 import com.alin.android.app.socket.ChatWebSocketClient;
 import com.alin.android.core.base.BaseNotification;
 import com.alin.android.core.utils.FileUtil;
@@ -37,9 +36,13 @@ import java.io.File;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 聊天室服务
+ */
 public class ChatService extends BaseAppService implements BaseNotification {
 
     private ChatUser user;
@@ -121,8 +124,6 @@ public class ChatService extends BaseAppService implements BaseNotification {
         return mBinder;
     }
 
-
-
     /**
      * 初始化WS
      */
@@ -146,7 +147,12 @@ public class ChatService extends BaseAppService implements BaseNotification {
                     sendNotification(chatMessage);
                     // 发送广播
                     Intent broadcastIntent = new Intent(Action.CHAT_MESSAGE);
-                    broadcastIntent.putExtra("message", messageString);
+                    sendBroadcast(broadcastIntent);
+                } else if (StringUtils.isNotBlank(chatMessage.getTo())) {
+                    // 保存通讯录
+                    saveChatBook(username, chatMessage.getText(), chatMessage.getDate(), "0".equals(chatMessage.getTo()));
+                    // 发送广播
+                    Intent broadcastIntent = new Intent(Action.CHAT_MESSAGE);
                     sendBroadcast(broadcastIntent);
                 }
             }
@@ -234,7 +240,7 @@ public class ChatService extends BaseAppService implements BaseNotification {
         public void run() {
             Log.d(TAG, "心跳包检测websocket连接状态");
             if (client != null) {
-                if (client.isClosed()) {
+                if (!client.isOpen() || client.isClosed()) {
                     reconnectWs();
                 }
             } else {
@@ -269,6 +275,9 @@ public class ChatService extends BaseAppService implements BaseNotification {
                 Log.d(TAG, "重连状态为:"+reconnectState);
                 if (reconnectState) {
                     Log.d(TAG, "重连成功");
+                    // 发送重连成功广播
+                    broadcastIntent = new Intent(Action.CHAT_MESSAGE_RESTART);
+                    sendBroadcast(broadcastIntent);
                 } else {
                     Log.d(TAG, "重连失败");
                     // 发送重连失败广播
@@ -332,6 +341,50 @@ public class ChatService extends BaseAppService implements BaseNotification {
     }
 
     /**
+     * 保存通讯录
+     * @param username
+     * @param chatUsername
+     * @param onlineTime
+     * @param online
+     */
+    private void saveChatBook(String username, String chatUsername, Date onlineTime, boolean online) {
+        List<ChatUser> chatUserList = getChatBook(username, context);
+        if (chatUserList != null && !chatUserList.isEmpty()) {
+            List<String> chatUsernames = chatUserList.stream().map(ChatUser::getName).collect(Collectors.toList());
+            if (chatUsernames.contains(chatUsername)) {
+                chatUserList.removeIf(user -> chatUsername.equals(user.getName()));
+            }
+        } else {
+            chatUserList = new ArrayList<>();
+        }
+        if (online) {
+            ChatUser chatUser = new ChatUser();
+            chatUser.setName(chatUsername);
+            chatUser.setLastChatTime(onlineTime);
+            chatUserList.add(chatUser);
+        }
+        setChatBook(username, chatUserList, context);
+    }
+
+    /**
+     * 保存通讯录
+     * @param username
+     * @param chatUsername
+     */
+    public static void saveChatBook(String username, List<String> chatUsername, Context context) {
+        List<ChatUser> chatUserList = new ArrayList<>();
+        if (chatUsername != null && !chatUsername.isEmpty()) {
+            for (String cun : chatUsername) {
+                ChatUser chatUser = new ChatUser();
+                chatUser.setName(cun);
+                chatUser.setLastChatTime(new Date());
+                chatUserList.add(chatUser);
+            }
+        }
+        setChatBook(username, chatUserList, context);
+    }
+
+    /**
      * 保存聊天信息
      * @param username
      * @param chatUsername
@@ -368,6 +421,30 @@ public class ChatService extends BaseAppService implements BaseNotification {
     public static List<ChatUser> getChatUserList(String username, Context context) {
         String filePath = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getPath() + "/" + username;
         return XmlUtil.pullXml(ChatUser.class, filePath, Constant.XML_CHAT_USER);
+    }
+
+    /**
+     * 设置通讯录
+     * @param username
+     * @param chatUsers
+     * @param context
+     * @return
+     */
+    public static boolean setChatBook(String username, List<ChatUser> chatUsers, Context context) {
+        String filePath = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getPath() + "/" + username;
+        FileUtil.mkdirs(filePath);
+        return XmlUtil.parse(chatUsers, filePath, Constant.XML_CHAT_BOOK);
+    }
+
+    /**
+     * 获取通讯录
+     * @param username
+     * @param context
+     * @return
+     */
+    public static List<ChatUser> getChatBook(String username, Context context) {
+        String filePath = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getPath() + "/" + username;
+        return XmlUtil.pullXml(ChatUser.class, filePath, Constant.XML_CHAT_BOOK);
     }
 
     /**

@@ -16,6 +16,7 @@ public interface Constant {
 
     String XML_CHAT_LOGIN_USER = "chat_login_user.xml";
     String XML_CHAT_USER = "chat_user.xml";
+    String XML_CHAT_BOOK = "chat_book.xml";
     String XML_CHAT_MESSAGE_PREFIX = "chat_message%s%s";
     String XML_SUFFIX = ".xml";
 
@@ -23,6 +24,8 @@ public interface Constant {
     String BROWSER_DEFAULT_URL = "https://www.baidu.com/";
 
     String STRING_CHAT = "聊天";
+    String STRING_CHAT_BOOK = "通讯录";
+    String STRING_CHAT_USER = "用户";
     String STRING_CHAT_LOADING = "收取中……";
     String STRING_CHAT_ERROR = "未连接";
 }
