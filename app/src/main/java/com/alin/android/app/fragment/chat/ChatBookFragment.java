@@ -111,12 +111,11 @@ public class ChatBookFragment extends BaseFragment {
                     @Override
                     public void onAccept(Set<String> o, String error) {
                         super.onAccept(o, error);
-                        if (StringUtils.isBlank(error)) {
-                            // 保存数据
-                            ChatService.saveChatBook(user.getName(), new ArrayList<>(o), context);
-                            // 初始化界面
-                            initView();
-                        }
+                        List<String> chatBookOnline = StringUtils.isBlank(error)?new ArrayList<>(o):new ArrayList<>();
+                        // 保存数据
+                        ChatService.saveChatBook(user.getName(), chatBookOnline, context);
+                        // 初始化界面
+                        initView();
                     }
                 });
     }
