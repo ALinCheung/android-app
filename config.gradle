@@ -72,5 +72,7 @@ ext {
             AndroidPicker_ImagePicker: 'com.gitee.li_yu_jiang.AndroidPicker:ImagePicker:3.1.0',
             // 即时通信websocket
             Java_WebSocket: 'org.java-websocket:Java-WebSocket:1.5.1',
+            // 汉字拼音工具
+            pinyin4j: 'com.belerweb:pinyin4j:2.5.0',
     ]
 }

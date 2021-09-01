@@ -8,9 +8,15 @@ public class ChatUser implements Serializable {
     String name;
     String lastChatMessage;
     Date lastChatTime;
+    boolean isGroupKey = false;
 
     public ChatUser() {
         super();
+    }
+
+    public ChatUser(String name, boolean isGroupKey) {
+        this.name = name;
+        this.isGroupKey = isGroupKey;
     }
 
     public ChatUser(Long uid, String name) {
@@ -49,5 +55,13 @@ public class ChatUser implements Serializable {
 
     public void setLastChatTime(Date lastChatTime) {
         this.lastChatTime = lastChatTime;
+    }
+
+    public boolean getIsGroupKey() {
+        return isGroupKey;
+    }
+
+    public void setIsGroupKey(boolean isGroupKey) {
+        this.isGroupKey = isGroupKey;
     }
 }

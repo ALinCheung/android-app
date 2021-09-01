@@ -3,6 +3,9 @@
     <color name="dark_gray_bg">#F5F5F5</color>
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
+    <color name="gray">#80808080</color>
+    <color name="silver_gray">#c0c0c0c0</color>
+    <color name="light_gray">#d0d0d0d0</color>
     <color name="blue">#3072F3</color>
     <color name="jmui_jpush_blue">#2DD0CF</color>
     <color name="menu_item_back_pres_color">#2DD0CF</color>

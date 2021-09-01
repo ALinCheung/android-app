@@ -123,4 +123,6 @@ dependencies {
     api library.AndroidPicker_ImagePicker
     // 即时通信websocket
     api library.Java_WebSocket
+    // 汉字拼音工具
+    api library.pinyin4j
 }

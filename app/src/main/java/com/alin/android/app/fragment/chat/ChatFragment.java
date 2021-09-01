@@ -99,13 +99,15 @@ public class ChatFragment extends BaseFragment {
      * 用户列表排序
      */
     private void sortChatUsers() {
-        chatUsers = chatUsers.stream().sorted(new Comparator<ChatUser>() {
-            @Override
-            public int compare(ChatUser o1, ChatUser o2) {
-                // 按最新消息时间排序
-                return Long.compare(o2.getLastChatTime().getTime(), o1.getLastChatTime().getTime());
-            }
-        }).collect(Collectors.toList());
+        if (chatUsers != null && !chatUsers.isEmpty()) {
+            chatUsers = chatUsers.stream().sorted(new Comparator<ChatUser>() {
+                @Override
+                public int compare(ChatUser o1, ChatUser o2) {
+                    // 按最新消息时间排序
+                    return Long.compare(o2.getLastChatTime().getTime(), o1.getLastChatTime().getTime());
+                }
+            }).collect(Collectors.toList());
+        }
     }
 
     /**
