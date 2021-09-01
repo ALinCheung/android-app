@@ -222,7 +222,7 @@ public class ChatService extends BaseAppService implements BaseNotification {
     public void sendMessage(ChatMessage chatMessage) {
         if (null != client) {
             String message = JSONObject.toJSONString(chatMessage);
-            Log.e(TAG, "发送的消息：" + message);
+            Log.d(TAG, "发送的消息：" + message);
             // 存储用户
             saveChatUser(chatMessage.getFrom(), chatMessage.getTo(), chatMessage);
             // 储存消息
@@ -392,7 +392,7 @@ public class ChatService extends BaseAppService implements BaseNotification {
      */
     private void saveChatMessage(String username, String chatUsername, ChatMessage chatMessage) {
         List<ChatMessage> chatMessages = getChatMessage(username, chatUsername, context);
-        if (chatMessages == null) {
+        if (chatMessages == null || chatMessages.isEmpty()) {
             chatMessages = new ArrayList<>();
         }
         chatMessages.add(chatMessage);

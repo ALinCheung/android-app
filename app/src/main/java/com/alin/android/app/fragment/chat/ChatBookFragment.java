@@ -163,12 +163,14 @@ public class ChatBookFragment extends BaseFragment {
      * 用户列表排序
      */
     private void sortChatBook() {
-        chatUsers = chatUsers.stream().sorted(new Comparator<ChatUser>() {
-            @Override
-            public int compare(ChatUser o1, ChatUser o2) {
-                // 按名称字符串排序
-                return o1.getName().compareTo(o2.getName());
-            }
-        }).collect(Collectors.toList());
+        if (chatUsers != null && !chatUsers.isEmpty()) {
+            chatUsers = chatUsers.stream().sorted(new Comparator<ChatUser>() {
+                @Override
+                public int compare(ChatUser o1, ChatUser o2) {
+                    // 按名称字符串排序
+                    return o1.getName().compareTo(o2.getName());
+                }
+            }).collect(Collectors.toList());
+        }
     }
 }

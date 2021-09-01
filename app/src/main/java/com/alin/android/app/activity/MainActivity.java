@@ -7,15 +7,11 @@ import static com.alin.android.app.constant.NotificationId.APP_VERSION_CHECK;
 import static com.mylhyl.circledialog.res.values.CircleColor.FOOTER_BUTTON_TEXT_NEGATIVE;
 
 import android.annotation.SuppressLint;
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -27,8 +23,6 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.app.NotificationCompat;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.alin.android.app.R;
@@ -100,8 +94,7 @@ public class MainActivity extends BaseAppActivity {
                     public void onAccept(Result<List<Banner>> result, String error) {
                         super.onAccept(result, error);
                         List<Banner> bannerList = result.getData();
-                        FragmentManager fragmentManager = getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.add(R.id.main_banner_linear, new BannerFragment(bannerList));
                         fragmentTransaction.commit();
                     }

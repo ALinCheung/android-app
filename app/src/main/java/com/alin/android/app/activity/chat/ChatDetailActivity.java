@@ -67,7 +67,6 @@ public class ChatDetailActivity extends BaseAppActivity {
 
         context = ChatDetailActivity.this;
 
-
         // 初始化数据
         initData();
         // 初始化视图
@@ -137,12 +136,18 @@ public class ChatDetailActivity extends BaseAppActivity {
         finish();
     }
 
+    /**
+     * 初始化数据
+     */
     public void initData() {
         currentUsername = getIntent().getStringExtra(Constant.KEY_CHAT_USER_FROM);
         chatUsername = getIntent().getStringExtra(Constant.KEY_CHAT_USER_TO);
         chatMessages = ChatService.getChatMessage(currentUsername, chatUsername, context);
     }
 
+    /**
+     * 初始化界面
+     */
     public void initView() {
         chatHeaderReturnBtn.setVisibility(View.VISIBLE);
         chatHeaderTitleTv.setText(chatUsername);
@@ -177,6 +182,8 @@ public class ChatDetailActivity extends BaseAppActivity {
     public void onClick(View view) {
         if (view.getId() != R.id.chat_content_et) {
             chatContentEt.clearFocus();
+        } else {
+            chatMessageListView.setSelection(chatMessageListView.getBottom());
         }
     }
 
@@ -198,7 +205,6 @@ public class ChatDetailActivity extends BaseAppActivity {
             chatMessage.setTo(chatUsername);
             chatMessage.setText(content);
             chatMessage.setDate(new Date());
-            chatMessages.add(chatMessage);
             chatService.sendMessage(chatMessage);
             initData();
             initView();

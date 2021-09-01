@@ -20,15 +20,29 @@ public class ChatDetailAdapter extends BaseCoreAdapter<ChatMessage> {
     }
 
     @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (getItem(position).getFrom().equals(username)) {
+            return 0;// 返回的数据位角标
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ChatMessage chatMessage = mData.get(position);
+        ChatMessage chatMessage = getItem(position);
         ViewHolder holder;
         if (chatMessage.getFrom().equals(username)) {
             holder = ViewHolder.bind(mContext != null?mContext:parent.getContext(), convertView, parent, R.layout.item_chat_send_text, position);
         } else {
             holder = ViewHolder.bind(mContext != null?mContext:parent.getContext(), convertView, parent, R.layout.item_chat_receive_text, position);
         }
-        bindView(holder, getItem(position));
+        bindView(holder, chatMessage);
         return holder.getItemView();
     }
 
